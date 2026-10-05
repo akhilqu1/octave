@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="des-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="des-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="des-skin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="32" fill="url(#des-bg)"/>
+  <!-- Palette / Arc in Background -->
+  <path d="M20 70 A60 60 0 0 1 140 70" stroke="rgba(2, 132, 199, 0.25)" stroke-width="4" fill="none" stroke-dasharray="6 6"/>
+  <!-- Head & Hair -->
+  <path d="M48 64 C48 38, 70 32, 80 32 C92 32, 112 38, 112 68 C112 85, 106 90, 104 94 C100 86, 102 70, 102 60 C102 46, 92 40, 80 40 C68 40, 58 46, 58 60 C58 70, 60 86, 56 94 C54 90, 48 85, 48 64 Z" fill="#334155"/>
+  <circle cx="80" cy="64" r="26" fill="url(#des-skin)"/>
+  <path d="M52 62 C56 46, 70 42, 80 42 C90 42, 104 46, 108 62 C104 50, 92 46, 80 46 C68 46, 56 50, 52 62 Z" fill="#1e293b"/>
+  <!-- Body / Sweater -->
+  <path d="M38 140 C42 108, 60 98, 80 98 C100 98, 118 108, 122 140 Z" fill="url(#des-accent)"/>
+  <!-- Scarf / Design Detail -->
+  <path d="M70 98 C70 115, 90 115, 90 98 Z" fill="#38bdf8" opacity="0.85"/>
+  <!-- Pencil / Layout Emblem -->
+  <circle cx="126" cy="126" r="18" fill="#1e293b" stroke="#0284c7" stroke-width="2"/>
+  <path d="M120 132 L132 120 M128 116 L134 122" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+</svg>

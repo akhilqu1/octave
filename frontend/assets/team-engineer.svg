@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="eng-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="eng-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="eng-skin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="32" fill="url(#eng-bg)"/>
+  <!-- Guitar Neck / Code Accent in Background -->
+  <path d="M24 140 L136 20" stroke="rgba(59, 130, 246, 0.25)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M36 148 L148 28" stroke="rgba(59, 130, 246, 0.15)" stroke-width="2"/>
+  <circle cx="80" cy="62" r="28" fill="url(#eng-skin)"/>
+  <!-- Hair / Glasses -->
+  <path d="M54 58 C54 38, 70 34, 80 34 C90 34, 106 38, 106 58 C106 46, 96 42, 80 42 C64 42, 54 46, 54 58 Z" fill="#334155"/>
+  <!-- Modern glasses -->
+  <rect x="63" y="56" width="14" height="10" rx="2" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+  <rect x="83" y="56" width="14" height="10" rx="2" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="77" y1="61" x2="83" y2="61" stroke="#2563eb" stroke-width="2"/>
+  <!-- Headphones on neck -->
+  <path d="M50 78 C50 96, 110 96, 110 78" fill="none" stroke="#3b82f6" stroke-width="5" stroke-linecap="round"/>
+  <!-- Body / Shoulders -->
+  <path d="M38 140 C42 108, 60 98, 80 98 C100 98, 118 108, 122 140 Z" fill="url(#eng-accent)"/>
+  <!-- Collar / Shirt Detail -->
+  <path d="M72 98 L80 114 L88 98 Z" fill="#ffffff" opacity="0.9"/>
+  <!-- Code/Tech emblem badge -->
+  <circle cx="126" cy="126" r="18" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+  <path d="M120 126 L124 122 M120 126 L124 130 M132 126 L128 122 M132 126 L128 130" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+</svg>

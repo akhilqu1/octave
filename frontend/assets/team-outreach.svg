@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="out-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="out-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </linearGradient>
+    <linearGradient id="out-skin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#fecdd3"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="32" fill="url(#out-bg)"/>
+  <!-- Radiating Community Waves in Background -->
+  <path d="M26 120 A60 60 0 0 1 134 120" stroke="rgba(37, 99, 235, 0.3)" stroke-width="3" fill="none"/>
+  <path d="M40 120 A44 44 0 0 1 120 120" stroke="rgba(37, 99, 235, 0.2)" stroke-width="2" fill="none"/>
+  <!-- Head & Curly Hair -->
+  <circle cx="80" cy="62" r="32" fill="#334155"/>
+  <circle cx="80" cy="64" r="26" fill="url(#out-skin)"/>
+  <!-- Hair curls -->
+  <circle cx="56" cy="52" r="10" fill="#1e293b"/>
+  <circle cx="104" cy="52" r="10" fill="#1e293b"/>
+  <circle cx="68" cy="40" r="11" fill="#1e293b"/>
+  <circle cx="92" cy="40" r="11" fill="#1e293b"/>
+  <circle cx="80" cy="38" r="12" fill="#1e293b"/>
+  <!-- Body / Denim or Jacket -->
+  <path d="M38 140 C42 108, 60 98, 80 98 C100 98, 118 108, 122 140 Z" fill="url(#out-accent)"/>
+  <!-- Inner shirt -->
+  <circle cx="80" cy="112" r="10" fill="#ffffff" opacity="0.9"/>
+  <!-- Community / Heart / Chat Emblem -->
+  <circle cx="126" cy="126" r="18" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+  <path d="M126 120 C123 117, 118 119, 118 123 C118 128, 126 133, 126 133 C126 133, 134 128, 134 123 C134 119, 129 117, 126 120 Z" fill="#60a5fa"/>
+</svg>

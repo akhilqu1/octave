@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Octave finds easier, pain-free guitar chord shapes so musicians with arthritis, tendonitis, or small hands can keep playing comfortably.">
+  <meta property="og:title" content="Octave — Play Guitar Without Hand Pain">
+  <meta property="og:description" content="Find easy, comfortable guitar chords that protect your hands and sound great.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://127.0.0.1:8000">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Octave — Play Guitar Without Hand Pain">
+  <meta name="twitter:description" content="Find easy, comfortable guitar chords that protect your hands and sound great.">
+  <title>Octave — Play Guitar Without Hand Pain</title>
+  
+  <link rel="stylesheet" href="/static/css/styles.css?v=9">
+  <link rel="stylesheet" href="/static/css/fretboard.css?v=9">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23dae2ec' stroke='%232563eb' stroke-width='2'/><path d='M8 20V12M14 24V8M20 22V10M26 18V14' stroke='%232563eb' stroke-width='2.5' stroke-linecap='round'/></svg>">
+</head>
+<body class="intro-running">
+
+  <!-- Fullscreen Opening Cinematic Animation (OCTAVE -> 8 -> 8VE -> Top-Left) -->
+  <div id="app-intro-splash" class="intro-splash-overlay" aria-label="Loading Octave" title="Click to skip">
+    <div class="intro-splash-center">
+      <div id="intro-stage" class="intro-stage">
+        <div id="intro-word-octave" class="intro-word-octave">OCTAVE</div>
+        <div id="intro-8ve-group" class="intro-8ve-group">
+          <span class="intro-digit-8">8</span>
+          <span class="intro-letters-ve">VE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Bookmark Bar (Navbar) -->
+  <header id="top-navbar" class="app-header">
+    <div id="brand-home-link" class="brand-nav">
+      <div class="brand-icon-mini">8VE</div>
+      <span id="docked-brand-text" class="brand-text-docked">Octave</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="#about" id="nav-about-link" class="nav-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Our Story
+      </a>
+      <a href="#creators" id="nav-creators-link" class="nav-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Team & Musicians
+      </a>
+      <a href="#play" id="nav-play-link" class="nav-item play-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Play Chords
+      </a>
+    </nav>
+  </header>
+
+  <!-- View Routing Container -->
+  <main class="view-container">
+
+    <!-- ====================================================================
+         SCROLLSPY MARKETING & STORY FLOW (Hero -> Our Story -> Team & Musicians)
+         ==================================================================== -->
+    <div id="landing-flow" class="landing-flow">
+      
+      <!-- ====================================================================
+           SECTION 1: HERO / LANDING
+           ==================================================================== -->
+      <section id="hero" class="scrollspy-section">
+        <div class="landing-waves-bg" aria-hidden="true">
+          <img src="/static/assets/hero-waves.svg?v=9" alt="" class="hero-wave-img" draggable="false">
+        </div>
+        <div class="landing-content">
+          <div class="intro-title-wrapper">
+            <div class="intro-title-gradient-bg" aria-hidden="true"></div>
+            <h1 id="landing-title" class="intro-title-banner">Octave</h1>
+          </div>
+          
+          <p class="intro-tagline">
+            Play the songs you love without hand pain. <strong>Octave</strong> turns difficult, painful guitar chords into easy, comfortable shapes for players with arthritis, tendonitis, or sore hands.
+          </p>
+
+          <div class="big-play-btn-wrapper">
+            <button id="big-center-play-btn" class="big-play-button" title="Launch Chord Studio">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span>Find Easier Chords</span>
+            </button>
+          </div>
+
+          <div class="hero-features-strip">
+            <div class="hero-pill">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Gentle on Hand & Finger Joints
+            </div>
+            <div class="hero-pill">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              No Hard Barre Chords
+            </div>
+            <div class="hero-pill">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Pick Chords or Drop in a MIDI File
+            </div>
+            <div class="hero-pill">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Hear Real Guitar Audio Previews
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SECTION 2: ABOUT US & OUR CAUSE
+           ==================================================================== -->
+      <section id="about" class="scrollspy-section">
+        <div class="about-hero">
+          <span class="page-badge">Why We Built Octave</span>
+          <h2 class="page-title">Helping Musicians Play Comfortably for Life</h2>
+          <p class="page-subtitle">
+            Millions of guitarists deal with arthritis, tendonitis, stiff fingers, or hand fatigue that makes playing painful. Many end up putting down their instruments. Octave helps you keep making music by finding easier chord shapes that protect your joints while sounding rich and full.
+          </p>
+        </div>
+
+        <div class="about-card-grid">
+          <div class="about-card">
+            <div class="about-card-icon-frame">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3>The Problem With Traditional Chords</h3>
+            <p>
+              Most guitar lessons teach stiff barre chords like F major and B minor. Clamping your index finger flat across 6 strings takes intense grip strength and puts heavy strain on your thumb, wrist, and knuckle joints.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <div class="about-card-icon-frame">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
+            </div>
+            <h3>Smarter, Easier Chord Shapes</h3>
+            <p>
+              Instead of fighting painful shapes, Octave uses open ringing strings and compact finger placements. You get gorgeous chords that fit the song perfectly while cutting hand strain by up to 98%.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <div class="about-card-icon-frame">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3>Smooth, Natural Chord Changes</h3>
+            <p>
+              Octave looks at your whole song, not just one chord at a time. It finds shapes where your fingers barely have to move and keeps anchor fingers in place so switching chords feels completely effortless.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-6); display:flex; justify-content:center;">
+          <button id="story-play-btn" class="action-btn primary play-cta" style="padding:var(--space-3) var(--space-8); font-size:15px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px;"><path d="M8 5v14l11-7z"/></svg>
+            Try It Now — Launch Chord Studio
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SECTION 3: TEAM & MUSICIANS (Exactly 4 Cards with Photo Spots)
+           ==================================================================== -->
+      <section id="creators" class="scrollspy-section">
+        <div class="about-hero">
+          <span class="page-badge">The Team Behind Octave</span>
+          <h2 class="page-title">Musicians, Doctors, and Builders</h2>
+          <p class="page-subtitle">
+            Octave was created by guitarists, hand specialists, and engineers dedicated to keeping music accessible and pain-free for players of all ages.
+          </p>
+        </div>
+
+        <div class="creators-grid">
+          <!-- Card 1: Founding Engineer -->
+          <div class="creator-card">
+            <div class="team-photo-container">
+              <div class="team-photo-slot">
+                <img class="team-photo-img" src="/static/assets/team-engineer.svg?v=9" alt="Julian Vance - Founding Engineer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="team-photo-placeholder" style="display:none;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>Photo Slot</span>
+                </div>
+              </div>
+              <span class="photo-spot-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                Photo Slot
+              </span>
+            </div>
+            <div class="creator-card-body">
+              <h3 class="creator-name">Julian Vance</h3>
+              <div class="creator-position">Founding Engineer</div>
+              <p class="creator-bio">
+                An avid fingerstyle guitarist and audio systems programmer who was diagnosed with flexor tendonitis after years of intense rehearsals. When doctors warned him to stop playing barre chords, he refused to give up his instrument. Julian engineered Octave’s graph-search trellis algorithm to calculate the easiest biomechanical paths along the fretboard, allowing guitarists of all hand abilities to play pain-free.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: Founding Designer -->
+          <div class="creator-card">
+            <div class="team-photo-container">
+              <div class="team-photo-slot">
+                <img class="team-photo-img" src="/static/assets/team-designer.svg?v=9" alt="Elena Rostova - Founding Designer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="team-photo-placeholder" style="display:none;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>Photo Slot</span>
+                </div>
+              </div>
+              <span class="photo-spot-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                Photo Slot
+              </span>
+            </div>
+            <div class="creator-card-body">
+              <h3 class="creator-name">Elena Rostova</h3>
+              <div class="creator-position">Founding Designer</div>
+              <p class="creator-bio">
+                A classical guitarist and product designer who developed early joint stiffness in her fretting hand. Frustrated by traditional chord charts that ignore human ergonomics, Elena designed Octave's high-visibility fretboard visualizer, color-coded finger tracking, and intuitive interface to make discovering accessible chord variations effortless and welcoming.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Operations & Strategy -->
+          <div class="creator-card">
+            <div class="team-photo-container">
+              <div class="team-photo-slot">
+                <img class="team-photo-img" src="/static/assets/team-operations.svg?v=9" alt="Marcus Chen - Operations & Strategy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="team-photo-placeholder" style="display:none;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>Photo Slot</span>
+                </div>
+              </div>
+              <span class="photo-spot-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                Photo Slot
+              </span>
+            </div>
+            <div class="creator-card-body">
+              <h3 class="creator-name">Marcus Chen</h3>
+              <div class="creator-position">Operations & Strategy</div>
+              <p class="creator-bio">
+                A former tour manager and acoustic player with arthritis who saw firsthand how many lifelong musicians abandon their craft due to chronic pain. Marcus oversees Octave’s medical partnerships, research clinics, and growth strategy, working with hand therapists and music academies to bring ergonomic playing tools to players worldwide.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 4: Community Outreach -->
+          <div class="creator-card">
+            <div class="team-photo-container">
+              <div class="team-photo-slot">
+                <img class="team-photo-img" src="/static/assets/team-outreach.svg?v=9" alt="Maya Patel - Community Outreach" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="team-photo-placeholder" style="display:none;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>Photo Slot</span>
+                </div>
+              </div>
+              <span class="photo-spot-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                Photo Slot
+              </span>
+            </div>
+            <div class="creator-card-body">
+              <h3 class="creator-name">Maya Patel</h3>
+              <div class="creator-position">Community Outreach</div>
+              <p class="creator-bio">
+                A community music teacher and singer-songwriter with limited pinky mobility. Maya leads Octave’s guitarist community, listening closely to feedback from players dealing with arthritis, focal dystonia, and small hands to make sure our easy chord voicings sound authentic and inspiring in real song progressions.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Bottom Call To Action -->
+        <div class="team-bottom-cta">
+          <div>
+            <h3>Ready to play your favorite songs pain-free?</h3>
+            <p>Click below to jump into Octave's Chord Studio and find comfortable voicings tailored to your hands.</p>
+          </div>
+          <button id="team-play-btn" class="action-btn primary play-cta">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Play Chords Now
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ====================================================================
+         ACTUAL APP WORKSPACE (Progression Builder -> Buffer -> Fretboard Results)
+         User is ONLY brought here by clicking the Play button!
+         ==================================================================== -->
+    <div id="app-workspace" class="app-workspace" style="display: none;">
+      
+      <!-- Top App Navigation Bar -->
+      <div class="app-mode-bar">
+        <button id="exit-app-btn" class="exit-app-btn" title="Return to Overview / Story">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to Overview
+        </button>
+        <div class="app-mode-indicator">
+          <span class="live-pulse-dot"></span>
+          <span>Octave Chord Studio</span>
+        </div>
+      </div>
+
+    <!-- ====================================================================
+         VIEW 4: PROGRESSION INPUT & BUILDER
+         ==================================================================== -->
+    <section id="view-input" class="app-view">
+      <div class="input-header">
+        <div>
+          <span class="page-badge">Step 1: Choose Your Chords</span>
+          <h2 class="page-title" style="font-size:24px;">Pick Your Chords & Hand Comfort Settings</h2>
+          <p class="page-subtitle" style="font-size:14px;">
+            Choose chords from the list below, or drag in a MIDI file (.mid). You can drag chords to change their order.
+          </p>
+        </div>
+
+        <!-- Preset Progressions Selector -->
+        <div style="display:flex; align-items:center; gap:var(--space-2); background:var(--bg-surface); padding:var(--space-2) var(--space-3); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+          <label for="preset-select" style="font-size:13px; color:var(--text-muted); font-weight:600;">Song Presets:</label>
+          <select id="preset-select" class="app-select" style="min-height:32px; padding:2px var(--space-2); font-size:13px;">
+            <option value="barre_gauntlet">Tough Barre Chords (F, Bm, F#m, C#m)</option>
+            <option value="pop_anthem">Classic Pop (C, G, Am, F)</option>
+            <option value="jazz_turnaround">Smooth Jazz (Dm7, G7, Cmaj7, A7)</option>
+            <option value="indie_rock">Acoustic Rock (Bm, G, D, A)</option>
+            <option value="folk_rock">Easy Folk (G, D, Em, C)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Dual Input Grid -->
+      <div class="dual-input-grid">
+        
+        <!-- Input Method 1: Dropdown Chord Creator -->
+        <div class="dropdown-chord-creator">
+          <h3 style="font-size:15px; font-weight:600; display:flex; align-items:center; gap:var(--space-2);">
+            <span>Option A:</span> Build Chords by Hand
+          </h3>
+
+          <div class="selector-controls-row">
+            <div class="dropdown-field">
+              <label for="chord-root-select">Root Note</label>
+              <select id="chord-root-select" class="app-select">
+                <option value="C">C</option>
+                <option value="C#">C# / Db</option>
+                <option value="D">D</option>
+                <option value="Eb">Eb / D#</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="F#">F# / Gb</option>
+                <option value="G">G</option>
+                <option value="Ab">Ab / G#</option>
+                <option value="A">A</option>
+                <option value="Bb">Bb / A#</option>
+                <option value="B">B</option>
+              </select>
+            </div>
+
+            <div class="dropdown-field">
+              <label for="chord-quality-select">Chord Type</label>
+              <select id="chord-quality-select" class="app-select">
+                <option value="major">Major (Bright / Standard)</option>
+                <option value="minor">Minor (m) (Mellow / Sad)</option>
+                <option value="7">Dominant 7 (Bluesy)</option>
+                <option value="maj7">Major 7 (maj7) (Lush / Jazzy)</option>
+                <option value="min7">Minor 7 (m7) (Smooth / Easy)</option>
+                <option value="sus2">Suspended 2 (sus2) (Open / Ringing)</option>
+                <option value="sus4">Suspended 4 (sus4) (Floating)</option>
+                <option value="add9">Add 9 (add9) (Acoustic Sparkle)</option>
+                <option value="6">Major 6 (6) (Warm)</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="add-dropdown-chord-btn" class="action-btn">
+            + Add Chord to Song
+          </button>
+
+          <div>
+            <span style="font-size:12px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Quick Add Popular Chords:</span>
+            <div class="quick-chips-strip">
+              <button class="quick-chip" data-chord="C">C</button>
+              <button class="quick-chip" data-chord="G">G</button>
+              <button class="quick-chip" data-chord="Am">Am</button>
+              <button class="quick-chip" data-chord="F">F</button>
+              <button class="quick-chip" data-chord="D">D</button>
+              <button class="quick-chip" data-chord="Em">Em</button>
+              <button class="quick-chip" data-chord="Bm">Bm</button>
+              <button class="quick-chip" data-chord="A">A</button>
+              <button class="quick-chip" data-chord="E">E</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Method 2: Standard MIDI File Drag/Drop -->
+        <div id="midi-dropzone" class="midi-dropzone">
+          <input type="file" id="midi-file-input" accept=".mid,.midi" style="display:none;">
+          <div class="midi-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <h3 style="font-size:15px; font-weight:600;">Option B: Upload a MIDI File</h3>
+          <p style="font-size:13px; color:var(--text-secondary); max-width:280px;">
+            Drag and drop a .mid file here, or click to choose one. We'll automatically pull the chords out of your song.
+          </p>
+          <span id="midi-status-label" style="font-size:12px; color:var(--accent-info); font-weight:600;">Works with any standard MIDI (.mid) file</span>
+        </div>
+
+      </div>
+
+      <!-- Reorderable Progression Sequence Board -->
+      <div class="progression-board">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:16px; font-weight:600;">
+            Your Chord Order
+            <span style="font-size:13px; color:var(--text-muted); font-weight:400; margin-left:var(--space-2);">(Drag cards or use arrow buttons to rearrange)</span>
+          </h3>
+          <button class="icon-btn" style="width:auto; padding:0 var(--space-2); font-size:12px;" onclick="window.octaveApp.clearProgression()">Clear All</button>
+        </div>
+
+        <div id="chord-drag-board" class="chord-drag-container">
+          <!-- Populated by progression_manager.js -->
+        </div>
+
+        <!-- Ergonomic Constraints Matrix -->
+        <div style="background:var(--bg-surface-raised); padding:var(--space-4); border-radius:var(--radius-sm); border:1px solid var(--border-subtle); display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:var(--space-4); align-items:center;">
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:var(--space-1);">
+              <span>Max Finger Stretch</span>
+              <span id="input-span-val" style="color:var(--accent-primary); font-family:var(--font-mono);">2 frets (Gentle)</span>
+            </div>
+            <input type="range" id="input-span-slider" min="1" max="4" step="1" value="2">
+          </div>
+
+          <div style="display:flex; align-items:center; gap:var(--space-2);">
+            <input type="checkbox" id="input-ban-barre-toggle" checked style="width:16px; height:16px; accent-color:var(--accent-primary); cursor:pointer;">
+            <label for="input-ban-barre-toggle" style="font-size:13px; font-weight:500; cursor:pointer;">No Barre Chords (Easy on Index Finger)</label>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:var(--space-2);">
+            <input type="checkbox" id="input-open-strings-toggle" checked style="width:16px; height:16px; accent-color:var(--accent-primary); cursor:pointer;">
+            <label for="input-open-strings-toggle" style="font-size:13px; font-weight:500; cursor:pointer;">Favor Open Strings (Zero Grip Effort)</label>
+          </div>
+        </div>
+
+        <div class="start-opt-action-bar">
+          <button id="start-opt-btn" class="start-opt-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Find Easier Chords
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 5: BUFFER / CALCULATION LOADING SCREEN
+         ==================================================================== -->
+    <section id="view-buffer" class="app-view">
+      <div class="buffer-card">
+        <h2 class="buffer-title">Finding Your Easiest Chord Shapes...</h2>
+
+        <div id="buffer-pct-counter" class="buffer-pct-counter">0%</div>
+
+        <div class="buffer-progress-track">
+          <div id="buffer-progress-fill" class="buffer-progress-fill"></div>
+        </div>
+
+        <div id="buffer-status-msg" class="buffer-status-msg">
+          Reading chord notes and song harmony...
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 6: RESULTS & SIMPLIFIED VISUALIZER
+         ==================================================================== -->
+    <section id="view-results" class="app-view">
+      
+      <!-- Celebratory Strain Relief Summary -->
+      <div class="results-celebration-banner">
+        <div class="celebration-title-group">
+          <h2>Great News! Your Progression is Ready</h2>
+          <p>We swapped out painful, tiring grips for easy, open shapes that sound great together.</p>
+        </div>
+
+        <div class="celebration-metric-box">
+          <div>
+            <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Hand Strain Reduced</div>
+            <div id="res-strain-pct" class="big-strain-saved">-98.5%</div>
+          </div>
+
+          <div class="stat-pills-column">
+            <span id="res-barres-eliminated" class="stat-badge-chip">4 Barres Removed</span>
+            <span id="res-travel-saved" class="stat-badge-chip" style="color:var(--accent-info); border-color:var(--accent-info-border); background:var(--accent-info-subtle);">-54% Less Movement</span>
+            <span id="res-open-strings" class="stat-badge-chip" style="color:var(--accent-warning); border-color:var(--accent-warning-border); background:var(--accent-warning-subtle);">+3 Open Strings</span>
+          </div>
+        </div>
+
+        <button id="edit-progression-btn" class="back-to-edit-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Change Chords
+        </button>
+      </div>
+
+      <!-- Simplified Fretboard Card -->
+      <div class="simplified-fretboard-card">
+        
+        <div class="results-nav-strip">
+          <div class="results-chord-selector">
+            <button id="res-prev-btn" class="icon-btn" title="Previous Chord" style="background:var(--bg-surface-raised);">◀</button>
+            <span id="res-chord-title" class="results-chord-title">Chord 1 of 4: Fmaj7</span>
+            <button id="res-next-btn" class="icon-btn" title="Next Chord" style="background:var(--bg-surface-raised);">▶</button>
+          </div>
+
+          <div class="toggle-switch-pills">
+            <button id="res-toggle-opt" class="pill-toggle-btn active">Easy Shape (Octave)</button>
+            <button id="res-toggle-std" class="pill-toggle-btn">Standard Shape (Tough)</button>
+          </div>
+
+          <div class="results-audio-bar">
+            <button id="res-strum-btn" class="audio-btn" title="Play current chord sound">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              Play Chord
+            </button>
+            <button id="res-ab-btn" class="audio-btn" style="color:var(--accent-info); border-color:var(--accent-info-border);" title="Compare standard chord with the easy Octave shape">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+              Compare Both
+            </button>
+            <button id="res-play-prog-btn" class="audio-btn primary" title="Play through all chords">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              Play All Chords
+            </button>
+          </div>
+        </div>
+
+        <div class="visualizer-wrapper">
+          <div id="results-fretboard-container" style="width:100%; display:flex; justify-content:center;">
+            <!-- SVG rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Fingering Color Legend -->
+        <div class="finger-legend" style="display:flex; flex-wrap:wrap; gap:var(--space-3); font-size:12px; color:var(--text-secondary); padding:var(--space-1) 0;">
+          <span style="font-weight:600; color:var(--text-primary);">Finger Guide:</span>
+          <div><span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:var(--finger-1); margin-right:4px;"></span> 1 Index</div>
+          <div><span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:var(--finger-2); margin-right:4px;"></span> 2 Middle</div>
+          <div><span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:var(--finger-3); margin-right:4px;"></span> 3 Ring</div>
+          <div><span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:var(--finger-4); margin-right:4px;"></span> 4 Pinky</div>
+          <div><span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:var(--accent-primary); margin-right:4px;"></span> <strong>O</strong> Open (Let Ring)</div>
+          <div><span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:#475569; margin-right:4px;"></span> <strong>✕</strong> Mute (Don't Play)</div>
+          <div style="margin-left:auto; color:var(--accent-primary); display:flex; align-items:center; gap:4px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/></svg>
+            Keep Finger Planted (Anchor)
+          </div>
+        </div>
+
+        <div class="results-data-grid">
+          <div id="res-spec-standard" class="data-spec-card">
+            <!-- Populated dynamically -->
+          </div>
+          <div id="res-spec-optimized" class="data-spec-card">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+    </div> <!-- /#app-workspace -->
+
+  </main>
+
+  <!-- Grounded, Functional Professional Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div>
+        <div style="font-weight:700; color:var(--text-primary); margin-bottom:2px;">Octave — Guitar Without Pain</div>
+        <div>Helping musicians play comfortably with easier, pain-free chord shapes.</div>
+      </div>
+
+      <nav class="footer-nav">
+        <a href="/docs" target="_blank" rel="noopener">API Docs</a>
+        <a href="#about" id="footer-about-link">Our Story</a>
+        <a href="#creators" id="footer-creators-link">Team & Musicians</a>
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+
+      <div style="font-size:12px; color:var(--text-muted);">
+        &copy; 2026 Octave. Free and open for all guitarists.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Polyphonic Audio Engine & Master Application Script (ES Module) -->
+  <script src="/static/js/audio_engine.js?v=9"></script>
+  <script type="module" src="/static/js/app.js?v=9"></script>
+</body>
+</html>

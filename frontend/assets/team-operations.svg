@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="ops-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="ops-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="ops-skin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="32" fill="url(#ops-bg)"/>
+  <!-- Compass / Strategy Rings in Background -->
+  <circle cx="80" cy="80" r="56" fill="none" stroke="rgba(148, 163, 184, 0.2)" stroke-width="2"/>
+  <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(148, 163, 184, 0.1)" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <!-- Head -->
+  <circle cx="80" cy="62" r="28" fill="url(#ops-skin)"/>
+  <!-- Short Trimmed Hair -->
+  <path d="M52 56 C52 36, 70 32, 80 32 C90 32, 108 36, 108 56 C108 44, 98 38, 80 38 C62 38, 52 44, 52 56 Z" fill="#0f172a"/>
+  <!-- Suit / Blazer -->
+  <path d="M38 140 C42 108, 60 98, 80 98 C100 98, 118 108, 122 140 Z" fill="url(#ops-accent)"/>
+  <!-- Shirt & Tie -->
+  <path d="M68 98 L80 140 L92 98 Z" fill="#ffffff" opacity="0.95"/>
+  <path d="M78 106 L82 106 L84 135 L80 140 L76 135 Z" fill="#2563eb"/>
+  <!-- Strategy / Chart Emblem -->
+  <circle cx="126" cy="126" r="18" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+  <path d="M118 132 L123 125 L128 128 L134 118" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

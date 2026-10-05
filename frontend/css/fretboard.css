@@ -1,0 +1,167 @@
+/* Fretboard SVG Vector Styling (Clean, architectural, light grey and cool blue palette) */
+.fretboard-svg {
+  width: 100%;
+  max-width: 880px;
+  height: auto;
+  min-height: 220px;
+  user-select: none;
+}
+
+/* Wood Neck Background */
+.neck-wood {
+  fill: #dae2ec; /* Modern darker grey neck */
+  stroke: #94a3b8;
+  stroke-width: 1.5;
+  rx: 6px;
+}
+
+/* Fretboard Nut */
+.fret-nut {
+  fill: #cbd5e1; /* Synthetic bone nut */
+  stroke: #64748b;
+  stroke-width: 1.5;
+}
+
+/* Nickel Silver Fret Wires */
+.fret-wire {
+  stroke: #94a3b8;
+  stroke-width: 2;
+}
+
+.fret-number-label {
+  fill: #475569;
+  font-size: 11px;
+  font-weight: 600;
+  text-anchor: middle;
+  font-family: var(--font-mono);
+}
+
+/* Pearl Inlay Markers */
+.fret-inlay {
+  fill: #cbd5e1;
+  stroke: #94a3b8;
+  stroke-width: 1;
+  opacity: 0.9;
+}
+
+/* Guitar Strings (Varied gauges from 6 to 1) */
+.guitar-string {
+  stroke: #64748b;
+  stroke-linecap: round;
+  transition: stroke 0.15s ease;
+}
+
+.guitar-string.str-6 { stroke-width: 3.6; stroke: #334155; } /* Low E */
+.guitar-string.str-5 { stroke-width: 2.8; stroke: #475569; } /* A */
+.guitar-string.str-4 { stroke-width: 2.2; stroke: #64748b; } /* D */
+.guitar-string.str-3 { stroke-width: 1.8; stroke: #64748b; } /* G */
+.guitar-string.str-2 { stroke-width: 1.4; stroke: #94a3b8; } /* B */
+.guitar-string.str-1 { stroke-width: 1.0; stroke: #94a3b8; } /* High e */
+
+.guitar-string.vibrating {
+  stroke: #2563eb !important;
+  stroke-width: 3.5 !important;
+}
+
+/* String Open Tuning Labels */
+.string-tuning-label {
+  fill: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: end;
+  font-family: var(--font-mono);
+}
+
+/* Open String Badge */
+.badge-open {
+  fill: #dbeafe;
+  stroke: #2563eb;
+  stroke-width: 1.5;
+  cursor: pointer;
+}
+
+.badge-open-text {
+  fill: #2563eb;
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* Muted String Badge */
+.badge-mute {
+  fill: #cbd5e1;
+  stroke: #94a3b8;
+  stroke-width: 1.5;
+}
+
+.badge-mute-text {
+  fill: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* Barre Clamping Capsule (Crisp structural bounding box) */
+.barre-capsule {
+  fill: rgba(37, 99, 235, 0.12);
+  stroke: #2563eb;
+  stroke-width: 1.5;
+  rx: 6px;
+}
+
+/* Fretted Note Badges */
+.fret-badge {
+  cursor: pointer;
+}
+
+.fret-badge-circle {
+  stroke-width: 2;
+  stroke: #ffffff;
+}
+
+.fret-badge-circle.finger-1 { fill: var(--finger-1); }
+.fret-badge-circle.finger-2 { fill: var(--finger-2); }
+.fret-badge-circle.finger-3 { fill: var(--finger-3); }
+.fret-badge-circle.finger-4 { fill: var(--finger-4); }
+.fret-badge-circle.finger-thumb { fill: var(--finger-thumb); }
+
+.fret-badge-text-finger {
+  fill: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-family: var(--font-family);
+}
+
+.fret-note-pill {
+  fill: #e4ebf3;
+  stroke: #94a3b8;
+  stroke-width: 1;
+  rx: 2px;
+}
+
+.fret-note-text {
+  fill: #0f172a;
+  font-size: 9px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-family: var(--font-mono);
+}
+
+/* Transition Motion Trail (Clean, non-distracting dashed line) */
+.transition-trail {
+  stroke: #2563eb;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  opacity: 0.8;
+}
+
+.transition-anchor-dot {
+  fill: #2563eb;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+}
