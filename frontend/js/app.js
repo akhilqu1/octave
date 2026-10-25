@@ -23,6 +23,8 @@ class OctaveApp {
     this.viewMode = "optimized"; // "optimized" or "standard"
     this.isPlayingProgression = false;
     this.playbackInterval = null;
+    this.playbackBpm = 80;
+    this.isLooping = true;
     this.updateScrollspy = null;
   }
 
@@ -45,22 +47,34 @@ class OctaveApp {
     this.bindInputControls();
     this.bindResultsControls();
 
-    // 4. Trigger Cinematic Intro Animation: OCTAVE -> 8 -> 8VE -> Top Left -> App Reveal
+    // 4. Initialize 3D Acoustic Dreadnought Guitar Viewer (WebGL)
+    if (window.Guitar3DViewer) {
+      try {
+        this.guitarViewer = new window.Guitar3DViewer("hero-guitar-3d-canvas");
+        this.guitarViewer.init();
+      } catch (err) {
+        console.warn("Could not start 3D Guitar Viewer:", err);
+      }
+    }
+
+    // 5. Trigger Cinematic Intro Animation: OCTAVE -> 8 -> 8VE -> Centered Medallion -> App Reveal
     this.runIntroAnimation();
   }
 
   /**
-   * Opening Animation Sequence:
-   * 1. Displays large 'OCTAVE' across the screen with nothing else visible.
-   * 2. 'OCTAVE' shrinks down into an '8'.
+   * Opening Animation Sequence — Acoustic Guitar String Tuning & Inlaid Badge:
+   * 1. 6 acoustic guitar strings vibrate and shimmer as 'OCTAVE' glows across screen.
+   * 2. Strings lock into pitch ('in-tune'), and 'OCTAVE' smoothly shrinks into an '8'.
    * 3. 'VE' joins '8' to form the full message '8VE'.
-   * 4. '8VE' moves over into the top left corner (docking into the brand badge).
-   * 5. The full application and navbar are smoothly unveiled.
+   * 4. '8VE' glides up into the top-left corner (docking into the brand badge).
+   * 5. The full application and navbar are cleanly unveiled.
+   * Snappy & brisk (~2.1s total), clickable anywhere to skip immediately.
    */
   runIntroAnimation() {
     const splash = document.getElementById("app-intro-splash");
     const introOctave = document.getElementById("intro-word-octave");
     const intro8ve = document.getElementById("intro-8ve-group");
+    const strings = document.querySelector(".intro-guitar-strings");
     const brandIcon = document.querySelector(".brand-icon-mini");
 
     if (!splash || !introOctave || !intro8ve) {
@@ -78,7 +92,7 @@ class OctaveApp {
       document.body.classList.add("intro-complete");
       setTimeout(() => {
         splash.style.display = "none";
-      }, 600);
+      }, 500);
     };
 
     // User can click anywhere on the splash to skip directly to the app
@@ -90,20 +104,21 @@ class OctaveApp {
       return;
     }
 
-    // Step 1: Hold the large 'OCTAVE' across screen for 1.15 seconds
+    // Step 1: Strings vibrate with warm acoustic tension as 'OCTAVE' shines (850ms)
     setTimeout(() => {
       if (isFinished) return;
 
-      // Step 2: 'OCTAVE' shrinks down into '8'
+      // Step 2: Strings lock into pitch ('in-tune') and 'OCTAVE' shrinks into '8'
+      if (strings) strings.classList.add("in-tune");
       introOctave.classList.add("shrink-out");
       intro8ve.classList.add("show-8");
 
-      // Step 3: 'VE' reveals next to '8', completing the message '8VE'
+      // Step 3: 'VE' reveals next to '8', completing '8VE'
       setTimeout(() => {
         if (isFinished) return;
         intro8ve.classList.add("show-ve");
 
-        // Step 4: The message '8VE' moves over to the top left corner
+        // Step 4: The message '8VE' glides over to top-left brand badge
         setTimeout(() => {
           if (isFinished) return;
           if (brandIcon) {
@@ -121,20 +136,20 @@ class OctaveApp {
 
             const targetScale = Math.max(0.3, Math.min(1.0, targetRect.height / (currentRect.height || 48)));
 
-            intro8ve.style.transition = "transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s ease";
+            intro8ve.style.transition = "transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s ease";
             intro8ve.style.transform = `translate(${dx}px, ${dy}px) scale(${targetScale})`;
           } else {
-            intro8ve.style.transition = "transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s ease";
+            intro8ve.style.transition = "transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s ease";
             intro8ve.style.transform = "translate(calc(-50vw + 48px), calc(-50vh + 32px)) scale(0.4)";
           }
 
-          // Step 5: When '8VE' lands in top-left, smoothly unveil the full application
+          // Step 5: Unveil app smoothly as 8VE docks
           setTimeout(() => {
             finishIntro();
-          }, 850);
-        }, 650); // Pause so user sees the complete '8VE' message
-      }, 650); // Pause so user sees the '8'
-    }, 1150); // Initial large 'OCTAVE' duration
+          }, 600);
+        }, 400); // Pause so user sees the complete '8VE' message
+      }, 400); // Pause so user sees the '8'
+    }, 850); // Initial string tuning vibration duration
   }
 
   /**
@@ -281,6 +296,8 @@ class OctaveApp {
       this.exitApp("about");
     } else if (viewName === "creators") {
       this.exitApp("creators");
+    } else if (viewName.startsWith("feature-")) {
+      this.exitApp(viewName);
     } else if (viewName === "input" || viewName === "buffer" || viewName === "results") {
       if (this.currentMode === "app") {
         this.setAppView(viewName);
@@ -348,6 +365,92 @@ class OctaveApp {
         this.enterApp("input");
       };
     }
+
+    // NASA Explore Dropdown Toggle
+    const exploreBtn = document.getElementById("nasa-explore-btn");
+    const exploreMenu = document.getElementById("nasa-explore-menu");
+    if (exploreBtn && exploreMenu) {
+      exploreBtn.onclick = (e) => {
+        e.stopPropagation();
+        const isOpen = exploreMenu.style.display === "block";
+        exploreMenu.style.display = isOpen ? "none" : "block";
+        exploreBtn.setAttribute("aria-expanded", String(!isOpen));
+      };
+
+      document.addEventListener("click", () => {
+        exploreMenu.style.display = "none";
+        exploreBtn.setAttribute("aria-expanded", "false");
+      });
+    }
+
+    // NASA Search Bar
+    const searchInput = document.getElementById("nasa-search-input");
+    if (searchInput) {
+      searchInput.onkeydown = (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const query = searchInput.value.trim().toLowerCase();
+          if (query.includes("akhil") || query.includes("creator") || query.includes("bio")) {
+            const el = document.getElementById("creators");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          } else if (query.includes("biomechanic") || query.includes("strain") || query.includes("barre") || query.includes("joint")) {
+            const el = document.getElementById("feature-biomechanics");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          } else if (query.includes("voice") || query.includes("trellis") || query.includes("lead") || query.includes("transition")) {
+            const el = document.getElementById("feature-voiceleading");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          } else if (query.includes("capo") || query.includes("hand") || query.includes("custom")) {
+            const el = document.getElementById("feature-customization");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          } else if (query.includes("chord") || query.includes("play") || query.includes("optimize") || query.includes("studio")) {
+            this.enterApp("input");
+          } else {
+            const el = document.getElementById("about");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      };
+    }
+
+    // NASA 3D Guitar Rotation Pause / Resume Toggle Button
+    const pause3dBtn = document.getElementById("pause-3d-btn");
+    if (pause3dBtn) {
+      pause3dBtn.onclick = (e) => {
+        e.preventDefault();
+        if (this.guitarViewer) {
+          const isRotating = this.guitarViewer.toggleRotation();
+          const iconPause = pause3dBtn.querySelector(".icon-pause");
+          const iconPlay = pause3dBtn.querySelector(".icon-play");
+          if (iconPause && iconPlay) {
+            iconPause.style.display = isRotating ? "block" : "none";
+            iconPlay.style.display = isRotating ? "none" : "block";
+          }
+          pause3dBtn.setAttribute("title", isRotating ? "Pause 3D Guitar Rotation" : "Resume 3D Guitar Rotation");
+          pause3dBtn.setAttribute("aria-label", isRotating ? "Pause 3D Guitar Rotation" : "Resume 3D Guitar Rotation");
+        }
+      };
+    }
+
+    // NASA Bottom Teaser Strip Cards (Links to individual vertical deep dive sections)
+    const stripCardMappings = [
+      { id: "strip-card-biomechanics", targetId: "feature-biomechanics" },
+      { id: "strip-card-voiceleading", targetId: "feature-voiceleading" },
+      { id: "strip-card-customization", targetId: "feature-customization" }
+    ];
+    stripCardMappings.forEach(({ id, targetId }) => {
+      const card = document.getElementById(id);
+      if (card) {
+        card.onclick = (e) => {
+          e.preventDefault();
+          if (this.currentMode === "app") {
+            this.exitApp(targetId);
+          } else {
+            const target = document.getElementById(targetId);
+            if (target) target.scrollIntoView({ behavior: "smooth" });
+          }
+        };
+      }
+    });
 
     // Story Section Call To Action Play Button (Enters App)
     const storyPlayBtn = document.getElementById("story-play-btn");
@@ -429,18 +532,142 @@ class OctaveApp {
       };
     }
 
-    // Max Span slider in Input view
+    // Hand Condition / Clinical Profile Dropdown
+    const profileSelect = document.getElementById("hand-profile-select");
     const spanSlider = document.getElementById("input-span-slider");
     const spanVal = document.getElementById("input-span-val");
-    if (spanSlider && spanVal) {
-      const labels = {
-        "1": "1 fret (Closest)",
-        "2": "2 frets (Gentle)",
-        "3": "3 frets (Normal)",
-        "4": "4 frets (Wide)"
+    const banBarresToggle = document.getElementById("input-ban-barre-toggle");
+    const openStringsToggle = document.getElementById("input-open-strings-toggle");
+
+    const labels = {
+      "1": "1 fret (Closest)",
+      "2": "2 frets (Gentle)",
+      "3": "3 frets (Normal)",
+      "4": "4 frets (Wide)"
+    };
+
+    if (profileSelect) {
+      profileSelect.onchange = () => {
+        const p = profileSelect.value;
+        if (p === "arthritis_moderate" || p === "tendonitis_flexor" || p === "small_hands") {
+          if (spanSlider) spanSlider.value = 2;
+          if (banBarresToggle) banBarresToggle.checked = true;
+          if (openStringsToggle) openStringsToggle.checked = true;
+        } else if (p === "dystonia_pinky") {
+          if (spanSlider) spanSlider.value = 3;
+          if (banBarresToggle) banBarresToggle.checked = false;
+          if (openStringsToggle) openStringsToggle.checked = true;
+        } else if (p === "carpal_tunnel") {
+          if (spanSlider) spanSlider.value = 2;
+          if (banBarresToggle) banBarresToggle.checked = true;
+          if (openStringsToggle) openStringsToggle.checked = true;
+        }
+        if (spanSlider && spanVal) {
+          spanVal.textContent = labels[spanSlider.value] || `${spanSlider.value} frets`;
+        }
       };
+    }
+
+    // Max Span slider in Input view
+    if (spanSlider && spanVal) {
       spanSlider.oninput = () => {
         spanVal.textContent = labels[spanSlider.value] || `${spanSlider.value} frets`;
+        if (profileSelect && profileSelect.value !== "custom") {
+          profileSelect.value = "custom";
+        }
+      };
+    }
+
+    if (banBarresToggle) {
+      banBarresToggle.onchange = () => {
+        if (profileSelect && profileSelect.value !== "custom") {
+          profileSelect.value = "custom";
+        }
+      };
+    }
+
+    if (openStringsToggle) {
+      openStringsToggle.onchange = () => {
+        if (profileSelect && profileSelect.value !== "custom") {
+          profileSelect.value = "custom";
+        }
+      };
+    }
+
+    // Hand Size Dropdown
+    const handSizeSelect = document.getElementById("hand-size-select");
+    if (handSizeSelect) {
+      handSizeSelect.onchange = () => {
+        const sz = handSizeSelect.value;
+        if (sz === "small") {
+          if (spanSlider) spanSlider.value = 2;
+          if (banBarresToggle) banBarresToggle.checked = true;
+        } else if (sz === "medium") {
+          if (spanSlider) spanSlider.value = 3;
+        } else if (sz === "large") {
+          if (spanSlider) spanSlider.value = 4;
+        }
+        if (spanSlider && spanVal) {
+          spanVal.textContent = labels[spanSlider.value] || `${spanSlider.value} frets`;
+        }
+        if (profileSelect && profileSelect.value !== "custom") {
+          profileSelect.value = "custom";
+        }
+      };
+    }
+
+    // Pasted Lyrics & Ultimate Guitar Modal Controls
+    const openLyricsBtn = document.getElementById("open-lyrics-modal-btn");
+    const lyricsModal = document.getElementById("lyrics-import-modal");
+    const closeLyricsBtn = document.getElementById("close-lyrics-modal-btn");
+    const submitLyricsBtn = document.getElementById("submit-lyrics-import-btn");
+    const lyricsText = document.getElementById("lyrics-import-text");
+    const dedupToggle = document.getElementById("lyrics-dedup-toggle");
+    const lyricsFeedback = document.getElementById("lyrics-import-feedback");
+
+    if (openLyricsBtn && lyricsModal) {
+      openLyricsBtn.onclick = () => {
+        lyricsModal.style.display = "flex";
+        if (lyricsFeedback) lyricsFeedback.style.display = "none";
+        if (lyricsText) lyricsText.focus();
+      };
+    }
+
+    if (closeLyricsBtn && lyricsModal) {
+      closeLyricsBtn.onclick = () => {
+        lyricsModal.style.display = "none";
+      };
+    }
+
+    if (lyricsModal) {
+      lyricsModal.onclick = (e) => {
+        if (e.target === lyricsModal) lyricsModal.style.display = "none";
+      };
+    }
+
+    if (submitLyricsBtn && lyricsText) {
+      submitLyricsBtn.onclick = () => {
+        const raw = lyricsText.value;
+        const shouldDedup = dedupToggle ? dedupToggle.checked : true;
+        const parsed = this.parseChordsFromText(raw, shouldDedup);
+        if (parsed.length === 0) {
+          if (lyricsFeedback) {
+            lyricsFeedback.textContent = "No recognizable chords found in text.";
+            lyricsFeedback.style.color = "var(--accent-warning)";
+            lyricsFeedback.style.display = "inline";
+          }
+          return;
+        }
+
+        this.progressionManager.setProgression(parsed);
+        if (lyricsFeedback) {
+          lyricsFeedback.textContent = `✓ Loaded ${parsed.length} chords: ${parsed.slice(0, 4).join(", ")}${parsed.length > 4 ? '...' : ''}`;
+          lyricsFeedback.style.color = "var(--accent-primary)";
+          lyricsFeedback.style.display = "inline";
+        }
+        setTimeout(() => {
+          lyricsModal.style.display = "none";
+        }, 800);
       };
     }
 
@@ -497,8 +724,8 @@ class OctaveApp {
       statusMsg.textContent = statusMilestones[0].msg;
     }
 
-    // Configure 5.0-second (5000ms) gradual progress animation
-    const TOTAL_DURATION_MS = 5000;
+    // Configure 2.1-second (2100ms) gradual progress animation
+    const TOTAL_DURATION_MS = 2100;
     const startTime = performance.now();
     let timer = null;
 
@@ -527,11 +754,13 @@ class OctaveApp {
           timer = null;
           resolve();
         }
-      }, 40);
+      }, 25);
     });
 
     try {
-      // Extract ergonomic constraints
+      // Extract ergonomic constraints and profile
+      const profileSelectEl = document.getElementById("hand-profile-select");
+      const profileId = profileSelectEl ? profileSelectEl.value : "arthritis_moderate";
       const spanSlider = document.getElementById("input-span-slider");
       const spanLimit = parseInt(spanSlider ? spanSlider.value : 2, 10);
       const banBarresToggle = document.getElementById("input-ban-barre-toggle");
@@ -540,21 +769,24 @@ class OctaveApp {
       const preferOpen = openStringsToggle ? openStringsToggle.checked : true;
 
       const customProfile = {
-        id: "custom",
-        name: "Custom Hand Comfort Profile",
-        description: "User customized settings",
+        id: profileId,
+        name: "Ergonomic Hand Comfort Profile",
+        description: "Optimized physical constraints",
         max_fret_span: spanLimit,
         ban_barres: banBarres,
         prefer_open_drones: preferOpen,
-        pinky_restriction: 0.5,
-        index_clamp_sensitivity: 2.2,
-        wrist_flexion_limit: 1.5,
+        pinky_restriction: profileId === "dystonia_pinky" ? 0.0 : 0.5,
+        index_clamp_sensitivity: profileId === "tendonitis_flexor" ? 3.0 : 2.2,
+        wrist_flexion_limit: profileId === "carpal_tunnel" ? 2.5 : 1.5,
         allow_harmonic_extensions: true
       };
 
+      const capoToggle = document.getElementById("input-capo-toggle");
+      const enableCapo = capoToggle ? capoToggle.checked : false;
+
       // Execute backend optimization concurrently with the 5-second progress animation
       const [telemetry] = await Promise.all([
-        OctaveApiClient.optimizeProgression(chords, "custom", customProfile),
+        OctaveApiClient.optimizeProgression(chords, profileId, customProfile, enableCapo),
         progressPromise
       ]);
 
@@ -565,13 +797,13 @@ class OctaveApp {
       if (pctCounter) pctCounter.textContent = "100%";
       if (statusMsg) statusMsg.textContent = "Done! Your easy-play chords are ready.";
 
-      // Brief 400ms pause at 100% so the user observes completion before transitioning to results
+      // Brief 200ms pause at 100% so the user observes completion before transitioning to results
       setTimeout(() => {
         this.currentStepIndex = 0;
         this.viewMode = "optimized";
         this.populateResultsView(telemetry);
         this.navigateTo("results");
-      }, 400);
+      }, 200);
     } catch (err) {
       if (timer) {
         clearInterval(timer);
@@ -598,6 +830,28 @@ class OctaveApp {
     if (barresEliminated) barresEliminated.textContent = `${telemetry.barres_eliminated_count} Barres Removed`;
     if (travelSaved) travelSaved.textContent = `-${telemetry.travel_reduction_pct}% Less Movement`;
     if (openStrings) openStrings.textContent = `+${telemetry.open_strings_gained_count} Open Strings`;
+
+    // Capo Recommendation Banner
+    const capoBanner = document.getElementById("res-capo-banner");
+    const capoText = document.getElementById("res-capo-text");
+    const applyCapoBtn = document.getElementById("res-apply-capo-btn");
+
+    if (capoBanner && capoText) {
+      if (telemetry.has_capo_recommendation && telemetry.recommended_capo_fret > 0) {
+        capoBanner.style.display = "flex";
+        capoText.innerHTML = `<strong>Capo Fret ${telemetry.recommended_capo_fret}:</strong> Play [${telemetry.capo_transposed_shapes.join(" &rarr; ")}] shapes to play barre-free open chords!`;
+        if (applyCapoBtn) {
+          applyCapoBtn.onclick = () => {
+            if (telemetry.capo_transposed_shapes && telemetry.capo_transposed_shapes.length > 0) {
+              this.progressionManager.setProgression(telemetry.capo_transposed_shapes);
+              this.setAppView("input");
+            }
+          };
+        }
+      } else {
+        capoBanner.style.display = "none";
+      }
+    }
 
     // 2. Render Active Chord Step
     this.renderResultsChordStep();
@@ -759,6 +1013,97 @@ class OctaveApp {
     if (playProgBtn) {
       playProgBtn.onclick = () => this.toggleProgressionPlayback();
     }
+
+    // Practice Looper Toggle button
+    const loopBtn = document.getElementById("res-loop-btn");
+    const loopText = document.getElementById("loop-btn-text");
+    if (loopBtn) {
+      if (this.isLooping) {
+        loopBtn.classList.add("active");
+        if (loopText) loopText.textContent = "Looping";
+      }
+      loopBtn.onclick = () => {
+        this.isLooping = !this.isLooping;
+        if (this.isLooping) {
+          loopBtn.classList.add("active");
+          if (loopText) loopText.textContent = "Looping";
+        } else {
+          loopBtn.classList.remove("active");
+          if (loopText) loopText.textContent = "Loop";
+        }
+      };
+    }
+
+    // Interactive Practice Tempo Slider (BPM)
+    const bpmSlider = document.getElementById("tempo-bpm-slider");
+    const bpmVal = document.getElementById("tempo-bpm-val");
+    if (bpmSlider && bpmVal) {
+      bpmSlider.value = this.playbackBpm;
+      bpmVal.textContent = this.playbackBpm;
+      bpmSlider.oninput = () => {
+        this.playbackBpm = parseInt(bpmSlider.value, 10);
+        bpmVal.textContent = this.playbackBpm;
+        if (this.isPlayingProgression) {
+          this.restartProgressionInterval();
+        }
+      };
+    }
+
+    // Export Tabs Modal & Copy
+    const exportTabBtn = document.getElementById("res-export-tab-btn");
+    const tabModal = document.getElementById("tab-export-modal");
+    const closeModalBtn = document.getElementById("close-tab-modal-btn");
+    const copyTabsBtn = document.getElementById("copy-tabs-btn");
+    const tabText = document.getElementById("tab-export-text");
+    const copyFeedback = document.getElementById("tab-copy-feedback");
+
+    if (exportTabBtn && tabModal && tabText) {
+      exportTabBtn.onclick = () => {
+        tabText.value = this.generateAsciiChordSheet();
+        tabModal.style.display = "flex";
+        if (copyFeedback) copyFeedback.style.display = "none";
+      };
+    }
+
+    if (closeModalBtn && tabModal) {
+      closeModalBtn.onclick = () => {
+        tabModal.style.display = "none";
+      };
+    }
+
+    if (tabModal) {
+      tabModal.onclick = (e) => {
+        if (e.target === tabModal) {
+          tabModal.style.display = "none";
+        }
+      };
+    }
+
+    if (copyTabsBtn && tabText) {
+      copyTabsBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(tabText.value);
+          if (copyFeedback) {
+            copyFeedback.style.display = "inline";
+            setTimeout(() => {
+              if (copyFeedback) copyFeedback.style.display = "none";
+            }, 2500);
+          }
+        } catch (err) {
+          tabText.select();
+          document.execCommand("copy");
+          if (copyFeedback) copyFeedback.style.display = "inline";
+        }
+      };
+    }
+
+    // Print / PDF Lead Sheet button
+    const printBtn = document.getElementById("res-print-sheet-btn");
+    if (printBtn) {
+      printBtn.onclick = () => {
+        window.print();
+      };
+    }
   }
 
   playCurrentVoicingSound() {
@@ -795,6 +1140,33 @@ class OctaveApp {
     });
   }
 
+  getStepIntervalMs() {
+    return Math.max(500, Math.round((60 / this.playbackBpm) * 2000));
+  }
+
+  restartProgressionInterval() {
+    if (!this.isPlayingProgression || !this.currentTelemetry || !this.currentTelemetry.steps) return;
+    if (this.playbackInterval) {
+      clearInterval(this.playbackInterval);
+      this.playbackInterval = null;
+    }
+    const totalSteps = this.currentTelemetry.steps.length;
+    this.playbackInterval = setInterval(() => {
+      if (!this.isPlayingProgression) return;
+      let nextIdx = this.currentStepIndex + 1;
+      if (nextIdx >= totalSteps) {
+        if (!this.isLooping) {
+          this.stopProgressionPlayback();
+          return;
+        }
+        nextIdx = 0;
+      }
+      this.currentStepIndex = nextIdx;
+      this.renderResultsChordStep();
+      this.playCurrentVoicingSound();
+    }, this.getStepIntervalMs());
+  }
+
   toggleProgressionPlayback() {
     const playBtn = document.getElementById("res-play-prog-btn");
     if (this.isPlayingProgression) {
@@ -802,22 +1174,30 @@ class OctaveApp {
       return;
     }
 
+    if (!this.currentTelemetry || !this.currentTelemetry.steps || this.currentTelemetry.steps.length === 0) return;
+
     this.isPlayingProgression = true;
     if (playBtn) playBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12"/></svg> Stop Playing';
 
-    let stepIdx = 0;
-    const totalSteps = this.currentTelemetry.steps.length;
+    // Play immediate current chord
+    this.renderResultsChordStep();
+    this.playCurrentVoicingSound();
 
-    const playStep = () => {
+    const totalSteps = this.currentTelemetry.steps.length;
+    this.playbackInterval = setInterval(() => {
       if (!this.isPlayingProgression) return;
-      this.currentStepIndex = stepIdx;
+      let nextIdx = this.currentStepIndex + 1;
+      if (nextIdx >= totalSteps) {
+        if (!this.isLooping) {
+          this.stopProgressionPlayback();
+          return;
+        }
+        nextIdx = 0;
+      }
+      this.currentStepIndex = nextIdx;
       this.renderResultsChordStep();
       this.playCurrentVoicingSound();
-      stepIdx = (stepIdx + 1) % totalSteps;
-    };
-
-    playStep();
-    this.playbackInterval = setInterval(playStep, 1900);
+    }, this.getStepIntervalMs());
   }
 
   stopProgressionPlayback() {
@@ -827,7 +1207,123 @@ class OctaveApp {
       this.playbackInterval = null;
     }
     const playBtn = document.getElementById("res-play-prog-btn");
-    if (playBtn) playBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play All Chords';
+    if (playBtn) playBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play All';
+  }
+
+  generateAsciiChordSheet() {
+    if (!this.currentTelemetry || !this.currentTelemetry.steps) return "";
+    const steps = this.currentTelemetry.steps;
+    const stringNames = ["e", "B", "G", "D", "A", "E"]; // standard tab order (high e to low E)
+    const stringIndices = [5, 4, 3, 2, 1, 0]; // 0=low E, 5=high e
+
+    let out = "=======================================================\n";
+    out += "  OCTAVE - ERGONOMIC GUITAR CHORD SHEET & TAB\n";
+    out += "  Created by Akhil Kohli | https://github.com/akhilqu1/octave\n";
+    out += `  Overall Strain Saved: -${this.currentTelemetry.total_strain_reduction_pct}%\n`;
+    out += `  Barres Removed: ${this.currentTelemetry.barres_eliminated_count} | Open Strings Added: +${this.currentTelemetry.open_strings_gained_count}\n`;
+    out += "=======================================================\n\n";
+
+    out += "EASY CHORD VOICINGS:\n";
+    steps.forEach((step, idx) => {
+      const v = step.optimized_voicing;
+      const fretStr = v.frets.map(f => f === -1 ? "x" : f).join("-");
+      const fingerStr = v.fingers.map(f => f <= 0 ? "-" : f).join(" ");
+      const barreNote = step.optimized_strain.is_barre_active ? "Barre" : "No Barre";
+      out += `  ${idx + 1}. ${v.chord_name.padEnd(8)} [${fretStr}]  (Fingers: ${fingerStr})  [${barreNote}]\n`;
+    });
+
+    out += "\nASCII TABLATURE:\n";
+    stringNames.forEach((strName, sIdx) => {
+      const fretIdx = stringIndices[sIdx];
+      let line = `  ${strName} |`;
+      steps.forEach((step) => {
+        const f = step.optimized_voicing.frets[fretIdx];
+        const noteStr = f === -1 ? "x" : f.toString();
+        line += `---${noteStr.padEnd(3, "-")}`;
+      });
+      line += "---|\n";
+      out += line;
+    });
+
+    let chordLabelLine = "     ";
+    steps.forEach((step) => {
+      chordLabelLine += `   ${step.optimized_voicing.chord_name.padEnd(4, " ")}`;
+    });
+    out += chordLabelLine + "\n\n";
+
+    out += "NOTATION GUIDE:\n";
+    out += "  1 = Index | 2 = Middle | 3 = Ring | 4 = Pinky\n";
+    out += "  0 = Open String (Zero Pinch Torque) | x = Muted String\n";
+    out += "=======================================================\n";
+    return out;
+  }
+
+  parseChordsFromText(rawText, deduplicate = true) {
+    if (!rawText || typeof rawText !== "string") return [];
+
+    const chordPattern = /\b([A-G][b#]?(?:maj7|min7|sus2|sus4|add9|dom7|maj|min|m7|m|7|6)?(?:\/[A-G][b#]?)?)\b/g;
+    const bracketPattern = /\[([A-G][b#]?[^\]]*)\]/g;
+
+    const chords = [];
+    let match;
+
+    // Check for bracketed ChordPro chords first (e.g. [C] [G])
+    while ((match = bracketPattern.exec(rawText)) !== null) {
+      const c = match[1].trim();
+      if (this.isValidChordToken(c)) {
+        chords.push(this.normalizeChordName(c));
+      }
+    }
+
+    // If no bracketed chords found, scan line-by-line
+    if (chords.length === 0) {
+      const lines = rawText.split("\n");
+      for (const line of lines) {
+        if (line.trim().startsWith("#") || line.trim().startsWith("//")) continue;
+        while ((match = chordPattern.exec(line)) !== null) {
+          const c = match[1].trim();
+          if (this.isValidChordToken(c)) {
+            chords.push(this.normalizeChordName(c));
+          }
+        }
+      }
+    }
+
+    if (!deduplicate) return chords;
+
+    // Collapse consecutive duplicate chords: e.g. ["C", "C", "G"] -> ["C", "G"]
+    const deduped = [];
+    for (let i = 0; i < chords.length; i++) {
+      if (i === 0 || chords[i] !== chords[i - 1]) {
+        deduped.push(chords[i]);
+      }
+    }
+    return deduped;
+  }
+
+  isValidChordToken(token) {
+    if (!token || token.length < 1 || token.length > 8) return false;
+    const roots = ["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"];
+    const base = token.charAt(0).toUpperCase() + (token.length > 1 && (token.charAt(1) === '#' || token.charAt(1) === 'b') ? token.charAt(1).toLowerCase() : '');
+    const cleanBase = base.length === 2 ? base.charAt(0) + (base.charAt(1) === '#' ? '#' : 'b') : base;
+    return roots.includes(cleanBase);
+  }
+
+  normalizeChordName(token) {
+    if (!token) return "";
+    let clean = token.trim();
+    let root = clean.charAt(0).toUpperCase();
+    let rest = clean.slice(1);
+    if (rest.startsWith("#")) {
+      root += "#";
+      rest = rest.slice(1);
+    } else if (rest.startsWith("b")) {
+      root += "b";
+      rest = rest.slice(1);
+    }
+    if (rest.toLowerCase() === "min") rest = "m";
+    if (rest.toLowerCase() === "maj") rest = "";
+    return root + rest;
   }
 }
 

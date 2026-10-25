@@ -40,3 +40,13 @@ def test_dynamic_programming_path_continuity():
     result = optimize_progression(chords, profile)
     assert result.total_strain_reduction_pct > 0
     assert len(result.calculation_logs) > 5
+
+
+def test_capo_benefit_recommendation():
+    from backend.engine.capo_solver import evaluate_capo_benefit
+    # Barre-heavy progression [F, Bm, F#m, C#m]
+    chords = ["F", "Bm", "F#m", "C#m"]
+    capo_res = evaluate_capo_benefit(chords)
+    assert capo_res["has_recommendation"] is True
+    assert capo_res["recommended_capo_fret"] > 0
+    assert len(capo_res["transposed_shapes"]) == 4

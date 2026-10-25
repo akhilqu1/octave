@@ -17,6 +17,7 @@ from backend.engine.music_theory import (
 from backend.engine.harmonic_library import get_voicings_for_chord
 from backend.engine.biomechanics import evaluate_chord_biomechanics
 from backend.engine.transition_solver import calculate_transition_metrics
+from backend.engine.capo_solver import evaluate_capo_benefit
 
 
 def calculate_harmonic_fidelity_penalty(raw_chord_name: str, voicing: ChordVoicing) -> float:
@@ -275,6 +276,15 @@ def optimize_progression(
         
     logs.append(f"Global Optimization Complete: {overall_strain_red}% hand strain reduction, {barres_eliminated} barre chords eliminated.")
     
+    # Capo Benefit Analysis
+    capo_data = evaluate_capo_benefit(chord_names, profile)
+    has_capo = capo_data["has_recommendation"]
+    rec_fret = capo_data["recommended_capo_fret"]
+    transposed = capo_data["transposed_shapes"]
+    rec_text = capo_data["recommendation_text"] if has_capo else None
+    if has_capo:
+        logs.append(f"Capo Recommendation: {rec_text}")
+    
     return OptimizationTelemetry(
         progression_id=str(uuid.uuid4())[:8],
         total_chords=num_stages,
@@ -290,5 +300,9 @@ def optimize_progression(
         avg_span_before=round(total_span_before / max(1, num_stages), 1),
         avg_span_after=round(total_span_after / max(1, num_stages), 1),
         steps=steps,
-        calculation_logs=logs
+        calculation_logs=logs,
+        has_capo_recommendation=has_capo,
+        recommended_capo_fret=rec_fret,
+        capo_transposed_shapes=transposed,
+        capo_recommendation_text=rec_text
     )

@@ -23,14 +23,22 @@ class GuitarAudioEngine {
     this.masterGain = this.audioCtx.createGain();
     this.masterGain.gain.setValueAtTime(0.75, this.audioCtx.currentTime);
 
-    // Acoustic Guitar Body Resonance Filter (~110Hz body cavity air resonance)
-    this.bodyFilter = this.audioCtx.createBiquadFilter();
-    this.bodyFilter.type = "peaking";
-    this.bodyFilter.frequency.setValueAtTime(115, this.audioCtx.currentTime);
-    this.bodyFilter.Q.setValueAtTime(1.8, this.audioCtx.currentTime);
-    this.bodyFilter.gain.setValueAtTime(4.0, this.audioCtx.currentTime);
+    // Acoustic Guitar Body Cavity Resonance (~105Hz air resonance)
+    this.bodyAirFilter = this.audioCtx.createBiquadFilter();
+    this.bodyAirFilter.type = "peaking";
+    this.bodyAirFilter.frequency.setValueAtTime(105, this.audioCtx.currentTime);
+    this.bodyAirFilter.Q.setValueAtTime(2.0, this.audioCtx.currentTime);
+    this.bodyAirFilter.gain.setValueAtTime(4.5, this.audioCtx.currentTime);
 
-    this.bodyFilter.connect(this.masterGain);
+    // Acoustic Spruce Top Soundboard Resonance (~215Hz plate wood resonance)
+    this.bodyPlateFilter = this.audioCtx.createBiquadFilter();
+    this.bodyPlateFilter.type = "peaking";
+    this.bodyPlateFilter.frequency.setValueAtTime(215, this.audioCtx.currentTime);
+    this.bodyPlateFilter.Q.setValueAtTime(1.6, this.audioCtx.currentTime);
+    this.bodyPlateFilter.gain.setValueAtTime(3.2, this.audioCtx.currentTime);
+
+    this.bodyAirFilter.connect(this.bodyPlateFilter);
+    this.bodyPlateFilter.connect(this.masterGain);
     this.masterGain.connect(this.audioCtx.destination);
   }
 
@@ -42,9 +50,9 @@ class GuitarAudioEngine {
   }
 
   /**
-   * Synthesizes a single plucked guitar string with physical harmonic decay.
+   * Synthesizes a single plucked guitar string with physical harmonic decay & pick attack.
    */
-  pluckString(frequency, startTime, duration = 2.2, isMuted = false, stringIdx = 0) {
+  pluckString(frequency, startTime, duration = 2.4, isMuted = false, stringIdx = 0) {
     if (!frequency || frequency <= 0) return;
     this.resume();
 
@@ -62,62 +70,91 @@ class GuitarAudioEngine {
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
 
       osc.connect(gain);
-      gain.connect(this.bodyFilter);
+      gain.connect(this.bodyAirFilter);
       osc.start(now);
       osc.stop(now + 0.07);
       return;
     }
 
-    // Polyphonic Physical Modeling:
-    // Plucked string consists of fundamental + 2nd harmonic (octave) + 3rd harmonic
-    // with a fast dynamic lowpass filter closing down (damping).
+    // 1. Pick Attack Transient Noise Impulse (~3ms plectrum snap)
+    try {
+      const bufferSize = Math.floor(this.audioCtx.sampleRate * 0.008);
+      const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.25));
+      }
+      const noiseNode = this.audioCtx.createBufferSource();
+      noiseNode.buffer = noiseBuffer;
+
+      const pickFilter = this.audioCtx.createBiquadFilter();
+      pickFilter.type = "bandpass";
+      pickFilter.frequency.setValueAtTime(Math.min(3500, frequency * 4), now);
+      pickFilter.Q.setValueAtTime(3.0, now);
+
+      const pickGain = this.audioCtx.createGain();
+      pickGain.gain.setValueAtTime(0.08, now);
+      pickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.008);
+
+      noiseNode.connect(pickFilter);
+      pickFilter.connect(pickGain);
+      pickGain.connect(this.bodyAirFilter);
+      noiseNode.start(now);
+      noiseNode.stop(now + 0.01);
+    } catch (_) {}
+
+    // 2. Physical String Modeling with Harmonic Decay
     const filter = this.audioCtx.createBiquadFilter();
     filter.type = "lowpass";
-    
-    // Low strings ring darker, treble strings brighter
-    const initialCutoff = Math.min(8000, frequency * 6);
+    const initialCutoff = Math.min(8500, frequency * 7);
     filter.frequency.setValueAtTime(initialCutoff, now);
-    // Damping envelope: brightness decays rapidly
-    filter.frequency.exponentialRampToValueAtTime(frequency * 1.5, now + duration * 0.4);
+    filter.frequency.exponentialRampToValueAtTime(frequency * 1.6, now + duration * 0.45);
 
     const stringGain = this.audioCtx.createGain();
     stringGain.gain.setValueAtTime(0.001, now);
-    // Quick pluck attack (~3ms)
-    stringGain.gain.linearRampToValueAtTime(0.35, now + 0.004);
-    // Exponential string decay
+    stringGain.gain.linearRampToValueAtTime(0.36, now + 0.003); // crisp attack
     stringGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-    // Fundamental oscillator (sawtooth/triangle hybrid for steel string buzz)
+    // Fundamental (sawtooth for wound bronze string bite)
     const osc1 = this.audioCtx.createOscillator();
     osc1.type = "sawtooth";
     osc1.frequency.setValueAtTime(frequency, now);
 
-    // 2nd harmonic overtone for acoustic shimmer
+    // 2nd Harmonic (Octave acoustic chime)
     const osc2 = this.audioCtx.createOscillator();
     osc2.type = "sine";
-    osc2.frequency.setValueAtTime(frequency * 2.01, now); // slight detune for chorus warmth
+    osc2.frequency.setValueAtTime(frequency * 2.008, now); // slight organic chorus detune
     const osc2Gain = this.audioCtx.createGain();
-    osc2Gain.gain.setValueAtTime(0.2, now);
+    osc2Gain.gain.setValueAtTime(0.24, now);
     osc2Gain.gain.exponentialRampToValueAtTime(0.001, now + duration * 0.6);
+
+    // 3rd Harmonic (Fifth harmonic sparkle)
+    const osc3 = this.audioCtx.createOscillator();
+    osc3.type = "sine";
+    osc3.frequency.setValueAtTime(frequency * 3.015, now);
+    const osc3Gain = this.audioCtx.createGain();
+    osc3Gain.gain.setValueAtTime(0.12, now);
+    osc3Gain.gain.exponentialRampToValueAtTime(0.001, now + duration * 0.4);
 
     osc1.connect(filter);
     osc2.connect(osc2Gain);
     osc2Gain.connect(filter);
+    osc3.connect(osc3Gain);
+    osc3Gain.connect(filter);
 
     filter.connect(stringGain);
-    stringGain.connect(this.bodyFilter);
+    stringGain.connect(this.bodyAirFilter);
 
     osc1.start(now);
     osc2.start(now);
+    osc3.start(now);
     osc1.stop(now + duration + 0.1);
     osc2.stop(now + duration + 0.1);
+    osc3.stop(now + duration + 0.1);
   }
 
   /**
-   * Plays a full chord voicing with realistic arpeggiated strumming.
-   * @param {Object} voicing - ChordVoicing object with frets and pitches_hz
-   * @param {number} strumSpeedMs - Micro-delay between strings (default 26ms)
-   * @param {Function} onStringPluck - Callback for UI string vibration animation
+   * Plays a full chord voicing with realistic arpeggiated strumming and human micro-delays.
    */
   async playChord(voicing, strumSpeedMs = 26, onStringPluck = null) {
     await this.resume();
@@ -131,12 +168,13 @@ class GuitarAudioEngine {
       const freq = pitches[strIdx];
 
       if (fret === -1) {
-        // String is muted
         continue;
       }
 
-      const stringTime = startTime + (delayIndex * (strumSpeedMs / 1000));
-      this.pluckString(freq, stringTime, 2.4, false, strIdx);
+      // Humanized micro-jitter (0-3ms)
+      const jitterMs = (Math.random() * 3.5);
+      const stringTime = startTime + (delayIndex * (strumSpeedMs / 1000)) + (jitterMs / 1000);
+      this.pluckString(freq, stringTime, 2.5, false, strIdx);
 
       if (onStringPluck) {
         const triggerDelayMs = (delayIndex * strumSpeedMs) + 20;

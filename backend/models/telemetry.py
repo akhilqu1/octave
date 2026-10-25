@@ -51,9 +51,14 @@ class OptimizationTelemetry(BaseModel):
     avg_span_after: float
     steps: List[ChordStepResult]
     calculation_logs: List[str] = Field(default_factory=list)
+    has_capo_recommendation: bool = False
+    recommended_capo_fret: int = 0
+    capo_transposed_shapes: List[str] = Field(default_factory=list)
+    capo_recommendation_text: Optional[str] = None
 
 
 class ProgressionOptimizeRequest(BaseModel):
     chords: List[str]  # e.g. ["F", "C", "G", "Am"] or ["Bm", "G", "D", "A"]
     profile_id: Optional[str] = "arthritis_moderate"
     custom_profile: Optional[Dict[str, Any]] = None
+    enable_capo: Optional[bool] = False

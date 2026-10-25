@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="woodGlow" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#42291d"/>
+      <stop offset="60%" stop-color="#2a1a12"/>
+      <stop offset="100%" stop-color="#190f0a"/>
+    </radialGradient>
+    <linearGradient id="amberAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97724"/>
+    </linearGradient>
+    <linearGradient id="stringLine" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#c87d32" stop-opacity="0.1"/>
+      <stop offset="50%" stop-color="#d97724" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#c87d32" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Tonewood Background -->
+  <rect width="400" height="400" fill="url(#woodGlow)"/>
+
+  <!-- Subtle Acoustic Rosette Circles in Background -->
+  <circle cx="200" cy="180" r="140" fill="none" stroke="#5a3a27" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.6"/>
+  <circle cx="200" cy="180" r="120" fill="none" stroke="#7d5236" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="200" cy="180" r="100" fill="none" stroke="#d97724" stroke-width="1" opacity="0.3"/>
+
+  <!-- Horizontal Guitar Strings across portrait -->
+  <line x1="20" y1="90" x2="380" y2="90" stroke="url(#stringLine)" stroke-width="1.5"/>
+  <line x1="20" y1="130" x2="380" y2="130" stroke="url(#stringLine)" stroke-width="1.2"/>
+  <line x1="20" y1="170" x2="380" y2="170" stroke="url(#stringLine)" stroke-width="1.0"/>
+  <line x1="20" y1="210" x2="380" y2="210" stroke="url(#stringLine)" stroke-width="1.0"/>
+  <line x1="20" y1="250" x2="380" y2="250" stroke="url(#stringLine)" stroke-width="1.2"/>
+  <line x1="20" y1="290" x2="380" y2="290" stroke="url(#stringLine)" stroke-width="1.5"/>
+
+  <!-- Elegant Musician Silhouette -->
+  <!-- Head & Hair -->
+  <circle cx="200" cy="148" r="50" fill="#3a2418" stroke="#7d5236" stroke-width="2"/>
+  <!-- Headset / Acoustic vibe -->
+  <path d="M 148 148 A 52 52 0 0 1 252 148" fill="none" stroke="#d97724" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="148" cy="154" r="10" fill="#d97724"/>
+  <circle cx="252" cy="154" r="10" fill="#d97724"/>
+
+  <!-- Shoulders / Torso -->
+  <path d="M 110 300 C 110 230, 150 216, 200 216 C 250 216, 290 230, 290 300 Z" fill="#311e14" stroke="#7d5236" stroke-width="2"/>
+
+  <!-- Guitar Pick Badge / Inlay -->
+  <path d="M 200 240 C 215 240, 222 255, 212 272 L 200 286 L 188 272 C 178 255, 185 240, 200 240 Z" fill="url(#amberAccent)" stroke="#fef3c7" stroke-width="1.5"/>
+  <text x="200" y="262" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="900" fill="#190f0a" text-anchor="middle">8VE</text>
+
+  <!-- Subtle Inlay Frame Border -->
+  <rect x="12" y="12" width="376" height="376" rx="16" fill="none" stroke="#5a3a27" stroke-width="2"/>
+  <rect x="18" y="18" width="364" height="364" rx="12" fill="none" stroke="#d97724" stroke-width="1" opacity="0.4"/>
+</svg>

@@ -38,11 +38,12 @@ export class OctaveApiClient {
     return res.json();
   }
 
-  static async optimizeProgression(chords, profileId = "arthritis_moderate", customProfile = null) {
+  static async optimizeProgression(chords, profileId = "arthritis_moderate", customProfile = null, enableCapo = false) {
     const payload = {
       chords,
       profile_id: profileId,
-      custom_profile: customProfile
+      custom_profile: customProfile,
+      enable_capo: enableCapo
     };
 
     const res = await fetch(`${API_BASE}/api/optimize`, {
