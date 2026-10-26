@@ -96,39 +96,39 @@ def get_progression_presets() -> List[Dict[str, Any]]:
     return [
         {
             "id": "barre_gauntlet",
-            "name": "Tough Barre Chords (F, Bm, F#m, C#m)",
+            "name": "Four Barre Chords (F, Bm, F#m, C#m)",
             "difficulty": "Hard (All Barre Chords)",
-            "description": "4 tough barre chords in a row that tire out your hands. Watch Octave replace every single barre with an easy shape!"
+            "description": "Four barre chords in a row. Octave swaps each one for an open shape that doesn't require barring."
         },
         {
             "id": "pop_anthem",
-            "name": "Classic Pop (C, G, Am, F)",
-            "difficulty": "Moderate (Tough F Barre)",
-            "description": "The most famous progression in modern music. Eliminates the painful F major barre chord while sounding smooth and full."
+            "name": "Pop Progression (C, G, Am, F)",
+            "difficulty": "Moderate (F Barre)",
+            "description": "A common four-chord song pattern. Octave replaces the F barre chord with an easier four-finger shape."
         },
         {
             "id": "jazz_turnaround",
-            "name": "Smooth Jazz (Dm7, G7, Cmaj7, A7)",
-            "difficulty": "Moderate (Wide Reach)",
-            "description": "A classic jazz progression arranged so your fingers barely have to shift across the fretboard."
+            "name": "Jazz Turnaround (Dm7, G7, Cmaj7, A7)",
+            "difficulty": "Moderate",
+            "description": "A standard 7th-chord turnaround arranged so your hand stays in one fret zone."
         },
         {
             "id": "folk_rock",
-            "name": "Acoustic Folk (G, D, Em, C)",
-            "difficulty": "Easy (Gentle Stretch)",
-            "description": "Keeps your anchor fingers planted in place, making chord transitions smooth and effortless."
+            "name": "Open Folk (G, D, Em, C)",
+            "difficulty": "Easy",
+            "description": "Uses shared notes on the top strings so your ring and pinky fingers can stay planted between chords."
         },
         {
             "id": "andalusian",
             "name": "Spanish Walkdown (Am, G, F, E)",
-            "difficulty": "Moderate (Tough F Transition)",
-            "description": "A classic descending chord pattern made comfortable by swapping out the stiff F barre chord."
+            "difficulty": "Moderate",
+            "description": "A descending bass line that skips the full F barre grip."
         },
         {
             "id": "indie_rock",
             "name": "Acoustic Rock (Bm, G, D, A)",
-            "difficulty": "Moderate (Tough Bm Barre)",
-            "description": "Replaces the stiff Bm barre chord with a comfortable open ringing shape for easy strumming."
+            "difficulty": "Moderate (Bm Barre)",
+            "description": "Replaces the B minor barre chord with an open shape that fits right next to G, D, and A."
         }
     ]
 

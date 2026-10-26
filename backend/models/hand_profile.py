@@ -22,12 +22,12 @@ class HandProfile(BaseModel):
     allow_harmonic_extensions: bool = Field(True, description="Allow harmonically rich, physically simpler substitutes like Maj7, Add9, Sus2, Min7")
 
 
-# Standard Ergonomic Presets for Clinical & Musician Ergonomics
+# Hand Comfort Presets
 PRESET_PROFILES: Dict[str, HandProfile] = {
     "arthritis_moderate": HandProfile(
         id="arthritis_moderate",
-        name="Interphalangeal Arthritis (Moderate)",
-        description="Limits excessive finger spreads and reduces isometric pinch force across knuckles.",
+        name="Arthritis (Gentle Grip)",
+        description="Keeps finger stretches narrow and avoids barre chords.",
         max_fret_span=2,
         ban_barres=True,
         prefer_open_drones=True,
@@ -38,8 +38,8 @@ PRESET_PROFILES: Dict[str, HandProfile] = {
     ),
     "tendonitis_flexor": HandProfile(
         id="tendonitis_flexor",
-        name="Flexor Tendonitis / Repetitive Strain",
-        description="Completely eliminates high-torque barre clamping and reduces sustained grip force.",
+        name="Tendonitis (No Barre Chords)",
+        description="Removes full and partial barre chords to reduce thumb and wrist pressure.",
         max_fret_span=2,
         ban_barres=True,
         prefer_open_drones=True,
@@ -50,8 +50,8 @@ PRESET_PROFILES: Dict[str, HandProfile] = {
     ),
     "dystonia_pinky": HandProfile(
         id="dystonia_pinky",
-        name="Focal Dystonia (Digit 4 / Pinky Weakness)",
-        description="Re-voices chord progressions to minimize or completely eliminate pinky fret stretches.",
+        name="3-Finger Mode (Avoid Pinky)",
+        description="Picks chord shapes that use only your index, middle, and ring fingers.",
         max_fret_span=3,
         ban_barres=False,
         prefer_open_drones=True,
@@ -62,8 +62,8 @@ PRESET_PROFILES: Dict[str, HandProfile] = {
     ),
     "carpal_tunnel": HandProfile(
         id="carpal_tunnel",
-        name="Carpal Tunnel & Wrist Median Nerve Relief",
-        description="Prevents extreme wrist flexion required to stretch fingers across bass strings (Low E & A).",
+        name="Wrist Relief (Less Bass Reach)",
+        description="Avoids wide stretches across the low E and A strings so your wrist stays straighter.",
         max_fret_span=2,
         ban_barres=True,
         prefer_open_drones=True,
@@ -74,8 +74,8 @@ PRESET_PROFILES: Dict[str, HandProfile] = {
     ),
     "healthy_baseline": HandProfile(
         id="healthy_baseline",
-        name="Standard Dexterity (Reference)",
-        description="No artificial biomechanical limits; standard guitar textbook fingering reference.",
+        name="Standard Guitar Shapes",
+        description="Standard chord chart shapes without hand restrictions.",
         max_fret_span=4,
         ban_barres=False,
         prefer_open_drones=False,

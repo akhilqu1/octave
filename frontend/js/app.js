@@ -383,36 +383,7 @@ class OctaveApp {
       });
     }
 
-    // NASA Search Bar
-    const searchInput = document.getElementById("nasa-search-input");
-    if (searchInput) {
-      searchInput.onkeydown = (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          const query = searchInput.value.trim().toLowerCase();
-          if (query.includes("akhil") || query.includes("creator") || query.includes("bio")) {
-            const el = document.getElementById("creators");
-            if (el) el.scrollIntoView({ behavior: "smooth" });
-          } else if (query.includes("biomechanic") || query.includes("strain") || query.includes("barre") || query.includes("joint")) {
-            const el = document.getElementById("feature-biomechanics");
-            if (el) el.scrollIntoView({ behavior: "smooth" });
-          } else if (query.includes("voice") || query.includes("trellis") || query.includes("lead") || query.includes("transition")) {
-            const el = document.getElementById("feature-voiceleading");
-            if (el) el.scrollIntoView({ behavior: "smooth" });
-          } else if (query.includes("capo") || query.includes("hand") || query.includes("custom")) {
-            const el = document.getElementById("feature-customization");
-            if (el) el.scrollIntoView({ behavior: "smooth" });
-          } else if (query.includes("chord") || query.includes("play") || query.includes("optimize") || query.includes("studio")) {
-            this.enterApp("input");
-          } else {
-            const el = document.getElementById("about");
-            if (el) el.scrollIntoView({ behavior: "smooth" });
-          }
-        }
-      };
-    }
-
-    // NASA 3D Guitar Rotation Pause / Resume Toggle Button
+    // 3D Guitar Rotation Pause / Resume Toggle Button
     const pause3dBtn = document.getElementById("pause-3d-btn");
     if (pause3dBtn) {
       pause3dBtn.onclick = (e) => {
@@ -532,90 +503,6 @@ class OctaveApp {
       };
     }
 
-    // Hand Condition / Clinical Profile Dropdown
-    const profileSelect = document.getElementById("hand-profile-select");
-    const spanSlider = document.getElementById("input-span-slider");
-    const spanVal = document.getElementById("input-span-val");
-    const banBarresToggle = document.getElementById("input-ban-barre-toggle");
-    const openStringsToggle = document.getElementById("input-open-strings-toggle");
-
-    const labels = {
-      "1": "1 fret (Closest)",
-      "2": "2 frets (Gentle)",
-      "3": "3 frets (Normal)",
-      "4": "4 frets (Wide)"
-    };
-
-    if (profileSelect) {
-      profileSelect.onchange = () => {
-        const p = profileSelect.value;
-        if (p === "arthritis_moderate" || p === "tendonitis_flexor" || p === "small_hands") {
-          if (spanSlider) spanSlider.value = 2;
-          if (banBarresToggle) banBarresToggle.checked = true;
-          if (openStringsToggle) openStringsToggle.checked = true;
-        } else if (p === "dystonia_pinky") {
-          if (spanSlider) spanSlider.value = 3;
-          if (banBarresToggle) banBarresToggle.checked = false;
-          if (openStringsToggle) openStringsToggle.checked = true;
-        } else if (p === "carpal_tunnel") {
-          if (spanSlider) spanSlider.value = 2;
-          if (banBarresToggle) banBarresToggle.checked = true;
-          if (openStringsToggle) openStringsToggle.checked = true;
-        }
-        if (spanSlider && spanVal) {
-          spanVal.textContent = labels[spanSlider.value] || `${spanSlider.value} frets`;
-        }
-      };
-    }
-
-    // Max Span slider in Input view
-    if (spanSlider && spanVal) {
-      spanSlider.oninput = () => {
-        spanVal.textContent = labels[spanSlider.value] || `${spanSlider.value} frets`;
-        if (profileSelect && profileSelect.value !== "custom") {
-          profileSelect.value = "custom";
-        }
-      };
-    }
-
-    if (banBarresToggle) {
-      banBarresToggle.onchange = () => {
-        if (profileSelect && profileSelect.value !== "custom") {
-          profileSelect.value = "custom";
-        }
-      };
-    }
-
-    if (openStringsToggle) {
-      openStringsToggle.onchange = () => {
-        if (profileSelect && profileSelect.value !== "custom") {
-          profileSelect.value = "custom";
-        }
-      };
-    }
-
-    // Hand Size Dropdown
-    const handSizeSelect = document.getElementById("hand-size-select");
-    if (handSizeSelect) {
-      handSizeSelect.onchange = () => {
-        const sz = handSizeSelect.value;
-        if (sz === "small") {
-          if (spanSlider) spanSlider.value = 2;
-          if (banBarresToggle) banBarresToggle.checked = true;
-        } else if (sz === "medium") {
-          if (spanSlider) spanSlider.value = 3;
-        } else if (sz === "large") {
-          if (spanSlider) spanSlider.value = 4;
-        }
-        if (spanSlider && spanVal) {
-          spanVal.textContent = labels[spanSlider.value] || `${spanSlider.value} frets`;
-        }
-        if (profileSelect && profileSelect.value !== "custom") {
-          profileSelect.value = "custom";
-        }
-      };
-    }
-
     // Pasted Lyrics & Ultimate Guitar Modal Controls
     const openLyricsBtn = document.getElementById("open-lyrics-modal-btn");
     const lyricsModal = document.getElementById("lyrics-import-modal");
@@ -687,7 +574,7 @@ class OctaveApp {
   /**
    * Optimization Workflow:
    * 1. Navigates to the buffer loading view.
-   * 2. Runs animated progress bar gradually from 0% -> 100% over ~5.0 seconds.
+   * 2. Runs animated progress bar gradually from 0% -> 100% over ~2.1 seconds.
    * 3. Displays progressive plain-English status messages.
    * 4. Calls optimization engine concurrently and transitions to results view.
    */
@@ -710,14 +597,14 @@ class OctaveApp {
     if (pctCounter) pctCounter.textContent = "0%";
 
     const statusMilestones = [
-      { pct: 0, msg: "Reading chord notes and song harmony..." },
-      { pct: 14, msg: "Scanning the fretboard for comfortable finger positions..." },
-      { pct: 28, msg: "Checking finger stretch and grip pressure..." },
-      { pct: 44, msg: "Removing painful barre chords and wide stretches..." },
-      { pct: 60, msg: "Finding shared anchor fingers for easy chord changes..." },
-      { pct: 75, msg: "Picking the smoothest, most natural chord shapes..." },
-      { pct: 90, msg: "Tuning clear acoustic chord sounds..." },
-      { pct: 100, msg: "Done! Your easy-play chords are ready." }
+      { pct: 0, msg: "Reading the chords in your song..." },
+      { pct: 14, msg: "Looking for comfortable chord shapes..." },
+      { pct: 28, msg: "Checking finger reach and grip comfort..." },
+      { pct: 44, msg: "Swapping out barre chords and wide stretches..." },
+      { pct: 60, msg: "Finding shared notes so your fingers can stay planted..." },
+      { pct: 75, msg: "Picking the smoothest path from chord to chord..." },
+      { pct: 90, msg: "Setting up guitar audio..." },
+      { pct: 100, msg: "Done! Here are your chords." }
     ];
 
     if (statusMsg) {
@@ -758,35 +645,23 @@ class OctaveApp {
     });
 
     try {
-      // Extract ergonomic constraints and profile
-      const profileSelectEl = document.getElementById("hand-profile-select");
-      const profileId = profileSelectEl ? profileSelectEl.value : "arthritis_moderate";
-      const spanSlider = document.getElementById("input-span-slider");
-      const spanLimit = parseInt(spanSlider ? spanSlider.value : 2, 10);
-      const banBarresToggle = document.getElementById("input-ban-barre-toggle");
-      const banBarres = banBarresToggle ? banBarresToggle.checked : true;
-      const openStringsToggle = document.getElementById("input-open-strings-toggle");
-      const preferOpen = openStringsToggle ? openStringsToggle.checked : true;
-
+      const profileId = "arthritis_moderate";
       const customProfile = {
         id: profileId,
-        name: "Ergonomic Hand Comfort Profile",
-        description: "Optimized physical constraints",
-        max_fret_span: spanLimit,
-        ban_barres: banBarres,
-        prefer_open_drones: preferOpen,
-        pinky_restriction: profileId === "dystonia_pinky" ? 0.0 : 0.5,
-        index_clamp_sensitivity: profileId === "tendonitis_flexor" ? 3.0 : 2.2,
-        wrist_flexion_limit: profileId === "carpal_tunnel" ? 2.5 : 1.5,
+        name: "Hand Comfort Profile",
+        description: "Default comfortable hand profile",
+        max_fret_span: 2,
+        ban_barres: true,
+        prefer_open_drones: true,
+        pinky_restriction: 0.5,
+        index_clamp_sensitivity: 2.2,
+        wrist_flexion_limit: 1.5,
         allow_harmonic_extensions: true
       };
 
-      const capoToggle = document.getElementById("input-capo-toggle");
-      const enableCapo = capoToggle ? capoToggle.checked : false;
-
-      // Execute backend optimization concurrently with the 5-second progress animation
+      // Execute backend optimization concurrently with the progress animation
       const [telemetry] = await Promise.all([
-        OctaveApiClient.optimizeProgression(chords, profileId, customProfile, enableCapo),
+        OctaveApiClient.optimizeProgression(chords, profileId, customProfile, false),
         progressPromise
       ]);
 
@@ -795,7 +670,7 @@ class OctaveApp {
       // Lock at 100% and notify completion
       if (progressBar) progressBar.style.width = "100%";
       if (pctCounter) pctCounter.textContent = "100%";
-      if (statusMsg) statusMsg.textContent = "Done! Your easy-play chords are ready.";
+      if (statusMsg) statusMsg.textContent = "Done! Here are your chords.";
 
       // Brief 200ms pause at 100% so the user observes completion before transitioning to results
       setTimeout(() => {
@@ -816,11 +691,11 @@ class OctaveApp {
   }
 
   /**
-   * Populates the Simplified Results View with celebration banner,
+   * Populates the Results View with summary banner,
    * fretboard visualizer, and before/after comparisons.
    */
   populateResultsView(telemetry) {
-    // 1. Celebratory Strain Saved Banner
+    // 1. Strain Saved Banner
     const strainPct = document.getElementById("res-strain-pct");
     const barresEliminated = document.getElementById("res-barres-eliminated");
     const travelSaved = document.getElementById("res-travel-saved");
@@ -830,28 +705,6 @@ class OctaveApp {
     if (barresEliminated) barresEliminated.textContent = `${telemetry.barres_eliminated_count} Barres Removed`;
     if (travelSaved) travelSaved.textContent = `-${telemetry.travel_reduction_pct}% Less Movement`;
     if (openStrings) openStrings.textContent = `+${telemetry.open_strings_gained_count} Open Strings`;
-
-    // Capo Recommendation Banner
-    const capoBanner = document.getElementById("res-capo-banner");
-    const capoText = document.getElementById("res-capo-text");
-    const applyCapoBtn = document.getElementById("res-apply-capo-btn");
-
-    if (capoBanner && capoText) {
-      if (telemetry.has_capo_recommendation && telemetry.recommended_capo_fret > 0) {
-        capoBanner.style.display = "flex";
-        capoText.innerHTML = `<strong>Capo Fret ${telemetry.recommended_capo_fret}:</strong> Play [${telemetry.capo_transposed_shapes.join(" &rarr; ")}] shapes to play barre-free open chords!`;
-        if (applyCapoBtn) {
-          applyCapoBtn.onclick = () => {
-            if (telemetry.capo_transposed_shapes && telemetry.capo_transposed_shapes.length > 0) {
-              this.progressionManager.setProgression(telemetry.capo_transposed_shapes);
-              this.setAppView("input");
-            }
-          };
-        }
-      } else {
-        capoBanner.style.display = "none";
-      }
-    }
 
     // 2. Render Active Chord Step
     this.renderResultsChordStep();
@@ -895,26 +748,26 @@ class OctaveApp {
     if (stdContainer) {
       stdContainer.innerHTML = `
         <div class="spec-header-row">
-          <span style="color:var(--text-secondary); font-weight:600;">Standard Chord: ${std.chord_name}</span>
-          <span class="card-badge" style="background:var(--bg-canvas); color:var(--text-muted); border-color:var(--border-subtle);">Tougher Grip</span>
+          <span style="color:var(--text-secondary); font-weight:600;">Standard shape: ${std.chord_name}</span>
+          <span class="card-badge" style="background:var(--bg-canvas); color:var(--text-muted); border-color:var(--border-subtle);">Standard grip</span>
         </div>
         <div class="data-metric-line">
-          <span class="key">Barre Clamp:</span>
+          <span class="key">Barre needed:</span>
           <span class="val ${stdStrain.is_barre_active ? 'text-red-500 font-bold' : ''}">
-            ${stdStrain.is_barre_active ? `YES (${stdStrain.barre_strings_count} strings flat)` : 'None'}
+            ${stdStrain.is_barre_active ? `Yes (${stdStrain.barre_strings_count} strings)` : 'No'}
           </span>
         </div>
         <div class="data-metric-line">
-          <span class="key">Finger Stretch:</span>
-          <span class="val">${stdStrain.fret_span} frets wide</span>
+          <span class="key">Fret reach:</span>
+          <span class="val">${stdStrain.fret_span} frets</span>
         </div>
         <div class="data-metric-line">
-          <span class="key">Fingers Used:</span>
+          <span class="key">Frets (low to high):</span>
           <span class="val font-mono">${stdStrain.fingering_notation}</span>
         </div>
         <div class="data-metric-line">
-          <span class="key">Hand Effort Level:</span>
-          <span class="val font-bold" style="color:var(--accent-warning);">${stdStrain.total_chord_strain.toFixed(1)} pts (Heavy)</span>
+          <span class="key">Hand strain score:</span>
+          <span class="val font-bold" style="color:var(--accent-warning);">${stdStrain.total_chord_strain.toFixed(1)} pts</span>
         </div>
       `;
     }
@@ -922,28 +775,28 @@ class OctaveApp {
     if (optContainer) {
       optContainer.innerHTML = `
         <div class="spec-header-row">
-          <span style="color:var(--accent-primary); font-weight:700;">Easy Octave Shape: ${opt.chord_name}</span>
+          <span style="color:var(--accent-primary); font-weight:700;">Octave shape: ${opt.chord_name}</span>
           <span class="card-badge" style="background:var(--accent-primary-subtle); color:var(--accent-primary); border-color:var(--accent-primary-border);">
-            ${step.strain_reduction_pct}% Easier
+            ${step.strain_reduction_pct}% less strain
           </span>
         </div>
         <div class="data-metric-line">
-          <span class="key">Barre Clamp:</span>
+          <span class="key">Barre needed:</span>
           <span class="val font-bold" style="color:var(--accent-primary);">
-            ${optStrain.is_barre_active ? 'Light' : 'NO BARRE (Zero Clamp)'}
+            ${optStrain.is_barre_active ? 'Partial' : 'No barre'}
           </span>
         </div>
         <div class="data-metric-line">
-          <span class="key">Finger Stretch:</span>
-          <span class="val" style="color:var(--accent-primary);">${optStrain.fret_span} frets (Gentle)</span>
+          <span class="key">Fret reach:</span>
+          <span class="val" style="color:var(--accent-primary);">${optStrain.fret_span} frets</span>
         </div>
         <div class="data-metric-line">
-          <span class="key">Fingers Used:</span>
+          <span class="key">Frets (low to high):</span>
           <span class="val font-mono" style="color:var(--accent-primary); font-weight:700;">${optStrain.fingering_notation}</span>
         </div>
         <div class="data-metric-line">
-          <span class="key">Hand Effort Level:</span>
-          <span class="val font-bold" style="color:var(--accent-primary);">${optStrain.total_chord_strain.toFixed(1)} pts (Very Light)</span>
+          <span class="key">Hand strain score:</span>
+          <span class="val font-bold" style="color:var(--accent-primary);">${optStrain.total_chord_strain.toFixed(1)} pts</span>
         </div>
       `;
     }
@@ -1008,10 +861,28 @@ class OctaveApp {
       abBtn.onclick = () => this.playABComparison();
     }
 
-    // Play Progression Continuous Loop button
+    // Play Progression Continuous Loop button & Dropdown Menu
     const playProgBtn = document.getElementById("res-play-prog-btn");
+    const playDropdownWrap = document.getElementById("play-all-dropdown-wrap");
+    const playOptionsToggle = document.getElementById("res-play-options-toggle");
+
     if (playProgBtn) {
       playProgBtn.onclick = () => this.toggleProgressionPlayback();
+    }
+
+    if (playOptionsToggle && playDropdownWrap) {
+      playOptionsToggle.onclick = (e) => {
+        e.stopPropagation();
+        const isOpen = playDropdownWrap.classList.toggle("open");
+        playOptionsToggle.setAttribute("aria-expanded", String(isOpen));
+      };
+
+      document.addEventListener("click", (e) => {
+        if (!playDropdownWrap.contains(e.target) && !this.isPlayingProgression) {
+          playDropdownWrap.classList.remove("open");
+          playOptionsToggle.setAttribute("aria-expanded", "false");
+        }
+      });
     }
 
     // Practice Looper Toggle button
@@ -1022,7 +893,8 @@ class OctaveApp {
         loopBtn.classList.add("active");
         if (loopText) loopText.textContent = "Looping";
       }
-      loopBtn.onclick = () => {
+      loopBtn.onclick = (e) => {
+        e.stopPropagation();
         this.isLooping = !this.isLooping;
         if (this.isLooping) {
           loopBtn.classList.add("active");
@@ -1169,6 +1041,8 @@ class OctaveApp {
 
   toggleProgressionPlayback() {
     const playBtn = document.getElementById("res-play-prog-btn");
+    const playDropdownWrap = document.getElementById("play-all-dropdown-wrap");
+    const playOptionsToggle = document.getElementById("res-play-options-toggle");
     if (this.isPlayingProgression) {
       this.stopProgressionPlayback();
       return;
@@ -1178,6 +1052,8 @@ class OctaveApp {
 
     this.isPlayingProgression = true;
     if (playBtn) playBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12"/></svg> Stop Playing';
+    if (playDropdownWrap) playDropdownWrap.classList.add("open");
+    if (playOptionsToggle) playOptionsToggle.setAttribute("aria-expanded", "true");
 
     // Play immediate current chord
     this.renderResultsChordStep();
@@ -1207,7 +1083,11 @@ class OctaveApp {
       this.playbackInterval = null;
     }
     const playBtn = document.getElementById("res-play-prog-btn");
+    const playDropdownWrap = document.getElementById("play-all-dropdown-wrap");
+    const playOptionsToggle = document.getElementById("res-play-options-toggle");
     if (playBtn) playBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play All';
+    if (playDropdownWrap) playDropdownWrap.classList.remove("open");
+    if (playOptionsToggle) playOptionsToggle.setAttribute("aria-expanded", "false");
   }
 
   generateAsciiChordSheet() {
@@ -1217,13 +1097,13 @@ class OctaveApp {
     const stringIndices = [5, 4, 3, 2, 1, 0]; // 0=low E, 5=high e
 
     let out = "=======================================================\n";
-    out += "  OCTAVE - ERGONOMIC GUITAR CHORD SHEET & TAB\n";
+    out += "  OCTAVE - GUITAR CHORD SHEET & TAB\n";
     out += "  Created by Akhil Kohli | https://github.com/akhilqu1/octave\n";
-    out += `  Overall Strain Saved: -${this.currentTelemetry.total_strain_reduction_pct}%\n`;
+    out += `  Hand Strain Reduced: -${this.currentTelemetry.total_strain_reduction_pct}%\n`;
     out += `  Barres Removed: ${this.currentTelemetry.barres_eliminated_count} | Open Strings Added: +${this.currentTelemetry.open_strings_gained_count}\n`;
     out += "=======================================================\n\n";
 
-    out += "EASY CHORD VOICINGS:\n";
+    out += "CHORD SHAPES (Low E to High e):\n";
     steps.forEach((step, idx) => {
       const v = step.optimized_voicing;
       const fretStr = v.frets.map(f => f === -1 ? "x" : f).join("-");
@@ -1232,7 +1112,7 @@ class OctaveApp {
       out += `  ${idx + 1}. ${v.chord_name.padEnd(8)} [${fretStr}]  (Fingers: ${fingerStr})  [${barreNote}]\n`;
     });
 
-    out += "\nASCII TABLATURE:\n";
+    out += "\nTAB:\n";
     stringNames.forEach((strName, sIdx) => {
       const fretIdx = stringIndices[sIdx];
       let line = `  ${strName} |`;
@@ -1251,9 +1131,9 @@ class OctaveApp {
     });
     out += chordLabelLine + "\n\n";
 
-    out += "NOTATION GUIDE:\n";
+    out += "FINGER GUIDE:\n";
     out += "  1 = Index | 2 = Middle | 3 = Ring | 4 = Pinky\n";
-    out += "  0 = Open String (Zero Pinch Torque) | x = Muted String\n";
+    out += "  0 = Open String | x = Muted String\n";
     out += "=======================================================\n";
     return out;
   }

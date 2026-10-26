@@ -108,7 +108,7 @@ def evaluate_capo_benefit(
             
     if best_fret > 0:
         shapes_str = " -> ".join(best_transposed)
-        rec_text = f"Clamp Capo on Fret {best_fret}: Play [{shapes_str}] shapes ({best_open_count}/{len(chord_names)} open shapes, {best_barres_avoided} barres avoided)"
+        rec_text = f"Put a capo on fret {best_fret} and play {shapes_str} shapes ({best_open_count} of {len(chord_names)} open shapes, {best_barres_avoided} barres avoided)."
         return {
             "has_recommendation": True,
             "recommended_capo_fret": best_fret,
@@ -122,7 +122,7 @@ def evaluate_capo_benefit(
             "has_recommendation": False,
             "recommended_capo_fret": 0,
             "transposed_shapes": list(chord_names),
-            "recommendation_text": "Open position (No Capo) is already optimal for these chords.",
+            "recommendation_text": "Playing without a capo is already the easiest option for these chords.",
             "open_chords_count": baseline_open_count,
             "barres_avoided_count": 0
         }
